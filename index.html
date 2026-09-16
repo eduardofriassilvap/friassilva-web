@@ -625,6 +625,30 @@
   }
 </style>
 
+<style>
+  .cvopts{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+  .cvopt{width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);
+    border-radius:12px;padding:13px 15px;display:grid;grid-template-columns:20px 1fr auto;gap:12px;
+    align-items:start;cursor:pointer;font:inherit;color:inherit;
+    transition:border-color .16s ease,box-shadow .16s ease,background .16s ease}
+  .cvopt:hover{border-color:var(--lift)}
+  .cvopt:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .cvopt[aria-checked="true"]{border-color:var(--blue);background:#FAFCFE;box-shadow:0 0 0 3px var(--glow)}
+  .cvdot{width:19px;height:19px;margin-top:2px;border:2px solid var(--line);border-radius:50%;
+    display:grid;place-items:center;transition:border-color .16s}
+  .cvdot i{width:9px;height:9px;border-radius:50%;background:var(--blue);display:block;
+    transform:scale(0);transition:transform .16s ease}
+  .cvopt[aria-checked="true"] .cvdot{border-color:var(--blue)}
+  .cvopt[aria-checked="true"] .cvdot i{transform:scale(1)}
+  .cvtx b{display:block;font-family:Manrope,sans-serif;font-weight:700;font-size:15.5px;letter-spacing:-.01em}
+  .cvtx span{display:block;color:var(--body);font-size:14px;margin-top:3px;line-height:1.45}
+  .cvpill{font-family:Manrope,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;background:var(--tint);color:var(--deep);padding:4px 8px;
+    border-radius:6px;white-space:nowrap;margin-top:2px}
+  .cvns{border-style:dashed}
+  @media(max-width:560px){.cvopt{grid-template-columns:20px 1fr}.cvpill{grid-column:2;justify-self:start}}
+</style>
+
 <header class="hd" id="hd">
   <div class="inner">
     <a class="brand" href="#cot" aria-label="Frias Silva - Podesta, inicio">
@@ -676,7 +700,7 @@
     <div class="head revealer">
       <p class="kicker">Cotizador de autos</p>
       <h2>Un minuto y sabés cuánto sale.</h2>
-      <p>Cinco pasos cortos. Arriba ves siempre en cuál estás y qué llevás cargado.</p>
+      <p>Seis pasos cortos. Arriba ves siempre en cuál estás y qué llevás cargado.</p>
     </div>
     <div class="cotgrid">
     <div class="quo revealer">
@@ -720,6 +744,12 @@
         <div class="fld"><label for="nom">Nombre y apellido</label><input class="ctl" id="nom" type="text" placeholder="Como figura en el DNI"></div>
       </div>
       <div class="pane" data-p="5">
+        <div class="fld"><label>¿Qué cobertura estás buscando?</label>
+          <div class="cvopts" id="cvopts" role="radiogroup" aria-label="Cobertura"><button type="button" class="cvopt" role="radio" aria-checked="false" data-cv="Responsabilidad civil"><span class="cvdot"><i></i></span><span class="cvtx"><b>Responsabilidad civil</b><span>Lo mínimo obligatorio para poder circular: cubre los daños que le hagas a otros, no los de tu auto.</span></span><span class="cvpill">La más económica</span></button><button type="button" class="cvopt" role="radio" aria-checked="false" data-cv="Todo Total con cristales"><span class="cvdot"><i></i></span><span class="cvtx"><b>Todo Total con cristales</b><span>Suma incendio y robo total, daños totales por accidente y rotura de cristales.</span></span><span class="cvpill">Intermedia</span></button><button type="button" class="cvopt" role="radio" aria-checked="false" data-cv="Terceros completo con cristales y granizo"><span class="cvdot"><i></i></span><span class="cvtx"><b>Terceros completo con cristales y granizo</b><span>Todo lo anterior y además incendio y robo parcial, y daño por granizo.</span></span><span class="cvpill">La más pedida</span></button><button type="button" class="cvopt" role="radio" aria-checked="false" data-cv="Todo riesgo · franquicia 1%"><span class="cvdot"><i></i></span><span class="cvtx"><b>Todo riesgo · franquicia 1%</b><span>Cubre también los daños parciales de tu auto. Es la franquicia más baja, así que es la opción más cara.</span></span><span class="cvpill">Máxima</span></button><button type="button" class="cvopt" role="radio" aria-checked="false" data-cv="Todo riesgo · franquicia 2%"><span class="cvdot"><i></i></span><span class="cvtx"><b>Todo riesgo · franquicia 2%</b><span>El punto medio: pagás menos de póliza y un poco más si tenés que usarla.</span></span><span class="cvpill">Máxima</span></button><button type="button" class="cvopt" role="radio" aria-checked="false" data-cv="Todo riesgo · franquicia 4%"><span class="cvdot"><i></i></span><span class="cvtx"><b>Todo riesgo · franquicia 4%</b><span>La más económica de las tres de todo riesgo, con la mayor parte a tu cargo en cada arreglo.</span></span><span class="cvpill">Máxima</span></button><button type="button" class="cvopt cvns" role="radio" aria-checked="false" data-cv="No sabe / a definir"><span class="cvdot"><i></i></span><span class="cvtx"><b>No sé cuál me conviene</b><span>Te paso las opciones con precio y las vemos juntos por WhatsApp.</span></span></button></div>
+          <p class="hint"><b>¿Qué es la franquicia?</b> Es la parte del arreglo que queda a tu cargo cuando usás el seguro por un daño parcial. Cuanto más baja, más cara la póliza; cuanto más alta, más barata.</p>
+        </div>
+      </div>
+      <div class="pane" data-p="6">
         <div class="fin"><div class="ava">EF</div><p class="mn">Listo. Te atiende Eduardo.</p>
           <p>Te mando tu cotización por WhatsApp en menos de 15 minutos, de 9 a 18. Si escribís fuera de ese horario, te respondo apenas abrimos.</p>
           <a class="btn btn-1" data-c="wa4">Abrir WhatsApp</a></div>
@@ -1144,26 +1174,26 @@
     "Retiro":'<svg class="art" viewBox="0 0 120 120" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 100h96"/><circle cx="60" cy="56" r="34"/><path d="M60 34v24l16 10" stroke-width="5"/><path d="M60 14v8M60 90v8M18 56h8M94 56h8" stroke-width="3.4" opacity=".6"/></svg>'
   };
   var G=[
-    {id:'veh',t:'Vehículos',go:'Cotizar ahora',items:[
-      {n:'Auto',d:'Cubre los daños que tu vehículo le pueda causar a terceros y, según la cobertura que elijas, también los daños al tuyo.',b:['Responsabilidad civil, que es la parte obligatoria','Robo, incendio y daños totales o parciales','Asistencia mecánica y grúa'],cot:true},
-      {n:'Moto',d:'La misma lógica que el auto, con coberturas pensadas para el uso y el riesgo de una moto.',b:['Responsabilidad civil','Robo e incendio','Casco y accesorios, según la póliza']},
-      {n:'Bicicleta',d:'Protege la bici dentro y fuera de casa, y tu responsabilidad si causás un daño andando.',b:['Robo total','Daños por accidente','Responsabilidad civil del ciclista']},
-      {n:'Embarcaciones',d:'Para lanchas, veleros y motos de agua: el casco, el motor y la responsabilidad frente a terceros.',b:['Daños al casco y al motor','Robo','Responsabilidad civil náutica']}]},
-    {id:'fam',t:'Casa y familia',go:'Quiero asesoramiento',items:[
-      {n:'Hogar',d:'Cubre la vivienda, lo que hay adentro y tu responsabilidad frente a vecinos y terceros.',b:['Incendio y daños por agua','Robo del contenido','Cristales y responsabilidad civil']},
-      {n:'Vida',d:'Un capital para tu familia si vos faltás. Es el único seguro que no se contrata para uno mismo.',b:['Capital por fallecimiento','Coberturas adicionales por invalidez','Los beneficiarios los elegís vos']},
-      {n:'Viaje',d:'Asistencia y cobertura mientras estás fuera del país, incluida la parte médica.',b:['Asistencia médica en el exterior','Pérdida de equipaje','Cancelación, según el plan']},
-      {n:'Accidentes personales',d:'Cobertura por accidentes dentro o fuera del trabajo, pensada para quien no está en relación de dependencia.',b:['Muerte accidental e invalidez','Gastos médicos','Se puede contratar por grupo']}]},
-    {id:'neg',t:'Tu negocio',go:'Quiero asesoramiento',items:[
-      {n:'Comercio',d:'Integral para tu local: el inmueble, la mercadería, los cristales y la responsabilidad frente a clientes.',b:['Incendio y robo','Cristales y carteles','Responsabilidad civil hacia terceros']},
-      {n:'ART',d:'Cobertura obligatoria por ley para tus empleados en relación de dependencia.',b:['Accidentes de trabajo y enfermedades profesionales','Accidentes de ida y vuelta al trabajo','Es obligatoria si tenés personal']},
-      {n:'Agro',d:'Para la producción: los cultivos, la maquinaria, los galpones y la actividad del campo.',b:['Granizo y otros riesgos climáticos','Maquinaria agrícola','Responsabilidad civil de la explotación']},
-      {n:'Industria',d:'Para plantas y depósitos: instalaciones, maquinaria, stock y la continuidad de la operación.',b:['Incendio y riesgos adicionales','Maquinaria y equipos','Responsabilidad civil de producto']},
-      {n:'Cauciones',d:'Una garantía que respalda el cumplimiento de un contrato, sin que tengas que inmovilizar plata.',b:['Garantías de licitación y de ejecución','Garantías de alquiler','Aduaneras y judiciales']},
-      {n:'Todo riesgo operativo',d:'Cobertura amplia para equipos y maquinaria en plena operación, incluidos los daños accidentales.',b:['Equipos de contratistas','Maquinaria en obra','Daños accidentales']}]},
-    {id:'fut',t:'Ahorro y futuro',go:'Quiero asesoramiento',items:[
-      {n:'Plan de ahorro',d:'Un plan para acumular capital en el tiempo, con aportes que definís vos.',b:['Aportes periódicos','Rescate según las condiciones del plan','Suele combinarse con cobertura de vida']},
-      {n:'Retiro',d:'Pensado para complementar tu ingreso cuando dejes de trabajar.',b:['Aportes a largo plazo','Renta o capital al momento del retiro','Beneficiarios designados']}]}
+    {id:"veh",t:"Vehículos",go:"Cotizar ahora",items:[
+      {n:"Auto",d:"Cubre los daños que tu auto le pueda causar a otros —eso es obligatorio para poder circular— y, según el plan que elijas, también los daños al tuyo.",b:["Responsabilidad civil ante terceros, que es la parte obligatoria","Robo e incendio, total o parcial según el plan","Daños a tu auto por accidente, con o sin franquicia","Cristales y granizo, según el plan","Asistencia las 24 horas: mecánica, remolque y auxilio"],cot:true},
+      {n:"Moto",d:"La misma lógica que el auto, con planes pensados para el uso y el riesgo de una moto.",b:["Responsabilidad civil ante terceros","Robo e incendio, total o parcial","Daños por accidente, según el plan","El equipo del motociclista: casco, campera, guantes, botas y baúl"]},
+      {n:"Bicicleta",d:"Protege la bici —y también monopatines, rollers y patinetas— dentro y fuera de casa.",b:["Robo total y daños por el intento de robo","El kit de seguridad: casco, coderas, rodilleras y candado","Responsabilidad civil si causás un daño andando","Robo de lo que llevás encima: celular, auriculares, mochila"]},
+      {n:"Embarcaciones",d:"Para lanchas, veleros y motos de agua: el casco, el motor y la responsabilidad frente a terceros.",b:["Daños al casco y al motor","Robo","Responsabilidad civil náutica"]}]},
+    {id:"fam",t:"Casa y familia",go:"Quiero asesoramiento",items:[
+      {n:"Hogar",d:"Cubre la vivienda, lo que hay adentro y tu responsabilidad frente a vecinos y terceros.",b:["Incendio del edificio y del contenido","Robo del contenido, incluidos los equipos portátiles","Daños por agua, cristales, granizo y vendaval","Responsabilidad civil frente a vecinos y terceros","Asistencia 24 horas: cerrajería, plomería y electricidad"]},
+      {n:"Vida",d:"Un capital para tu familia si vos faltás. Es el único seguro que no se contrata para uno mismo.",b:["Capital por fallecimiento","Invalidez total y permanente","Enfermedades graves, según el plan","Los beneficiarios los elegís vos"]},
+      {n:"Viaje",d:"Asistencia y cobertura mientras estás fuera del país, incluida la parte médica.",b:["Asistencia médica en el exterior","Pérdida de equipaje","Cancelación, según el plan"]},
+      {n:"Accidentes personales",d:"Cobertura por accidentes dentro o fuera del trabajo, pensada sobre todo para grupos y para quien no está en relación de dependencia.",b:["Muerte accidental e invalidez","Gastos médicos","Se contrata en forma colectiva, por grupo"]}]},
+    {id:"neg",t:"Tu negocio",go:"Quiero asesoramiento",items:[
+      {n:"Comercio",d:"Integral para tu local: el inmueble, la mercadería, los cristales y la responsabilidad frente a clientes.",b:["Incendio del edificio y del contenido","Robo del contenido y de los valores en caja","Rotura de cristales y daños por agua","Responsabilidad civil hacia clientes y terceros","Asistencia al comercio: cerrajería, vigilancia, grupo electrógeno"]},
+      {n:"ART",d:"Cobertura obligatoria por ley para tus empleados en relación de dependencia.",b:["Accidentes de trabajo y enfermedades profesionales","Accidentes de ida y vuelta al trabajo","Prestaciones médicas y económicas","Es obligatoria si tenés personal a cargo"]},
+      {n:"Agro",d:"Para la producción: el cultivo, el grano guardado y lo que pasa en el campo.",b:["Granizo como cobertura base, con distintos planes","Incendio y resiembra","Adicionales de helada y viento fuerte","Silo bolsa: incendio, robo, granizo y combustión espontánea","Transporte de cereal, incluido el robo en el traslado"]},
+      {n:"Industria",d:"Para plantas y depósitos, tanto en operación como en construcción.",b:["Incendio o todo riesgo integral de la planta","Pérdida de beneficios: los costos fijos mientras no podés producir","Obra en construcción: incendio, terremoto, viento, inundación y derrumbe","Daños a terceros durante los trabajos"]},
+      {n:"Cauciones",d:"Una garantía que respalda el cumplimiento de un compromiso, sin que tengas que inmovilizar plata.",b:["Garantías aduaneras","Garantía judicial y sustitución de medidas cautelares","Garantía de alquileres comerciales","Garantía de socios y gerentes"]},
+      {n:"Todo riesgo operativo",d:"Cobertura amplia para los equipos y la maquinaria de una empresa mientras están operando.",b:["Equipos del contratista en el sitio de la obra","Daños accidentales durante la operación","Ingeniería de riesgo: revisión de sistemas contra incendio y planes de emergencia"]}]},
+    {id:"fut",t:"Ahorro y futuro",go:"Quiero asesoramiento",items:[
+      {n:"Plan de ahorro",d:"Un plan para acumular capital en el tiempo, con aportes que definís vos.",b:["Aportes periódicos o un aporte único","El plazo lo elegís: desde unos pocos años hasta décadas","Se puede en pesos o en dólares","Rescates parciales, según las condiciones del plan"]},
+      {n:"Retiro",d:"Pensado para complementar tu ingreso cuando dejes de trabajar.",b:["Aportes a largo plazo","Renta o capital al momento del retiro","Beneficiarios designados"]}]}
   ];
   var acc=$('acc');
   G.forEach(function(g,i){
@@ -1278,6 +1308,7 @@
       if(anio&&anio.value)t.push(anio.value);
       if(cp&&/^\d{4}$/.test(cp.value.trim()))t.push('CP '+cp.value.trim());
     }catch(e){}
+    try{if(COB)t.push('cobertura '+COB)}catch(e){}
     return t.length?' Mi auto: '+t.join(', ')+'.':'';
   }
   var DEST={
@@ -1412,9 +1443,9 @@
 
   var prov=$('prov'),cp=$('cp'),mar=$('mar'),mod=$('mod'),ver=$('ver'),anio=$('anio'),uso=$('uso'),nac=$('nac'),nom2=$('nom');
   var rail=$('rail'),resume=$('resume'),next=$('next'),back=$('back'),priv=$('priv'),nav2=$('nav2');
-  var step=1,TOT=5;
+  var step=1,TOT=6;var COB="";
 
-  ['Zona','Vehículo','Detalles','Titular','Listo'].forEach(function(t,i){
+  ['Zona','Vehículo','Detalles','Titular','Cobertura','Listo'].forEach(function(t,i){
     var d=document.createElement('div');d.className='rl';d.innerHTML='<i>'+(i+1)+'</i><span>'+t+'</span>';rail.appendChild(d);
   });
 
@@ -1476,6 +1507,7 @@
     if(step===2)return !!(DATA[mar.value] && (DATA[mar.value]||[]).indexOf(mod.value)>-1 && ver.value.trim());
     if(step===3)return !!anio.value;
     if(step===4)return !!(nac.value&&nom2.value.trim());
+    if(step===5)return !!COB;
     return true;
   }
   function chips(){
@@ -1487,6 +1519,7 @@
     if(anio.value)c.push(anio.value);
     if(step>=3)c.push(uso.value,'GNC: '+gncVal());
     if(nom2.value.trim())c.push(nom2.value.trim());
+    if(COB)c.push(COB);
     resume.innerHTML=c.map(function(t){return '<span>'+t+'</span>'}).join('');
   }
   function paint(){
@@ -1498,7 +1531,7 @@
     back.hidden=step===1||step===TOT;
     nav2.style.display=step===TOT?'none':'';
     priv.style.display=step===TOT?'none':'';
-    next.textContent=step===4?'Ver mi cotización':'Siguiente';
+    next.textContent=step===5?'Ver mi cotización':'Siguiente';
     next.disabled=!valid();chips();refrescarWa4();
   }
   function mark(id,on){var el=$(id);if(el)el.classList.toggle('done',!!on)}
@@ -1516,6 +1549,11 @@
   uso.addEventListener('change',paint);
   nac.addEventListener('change',function(){mark('f-nac',nac.value);paint()});
   nom2.addEventListener('input',paint);
+  (function(){var box=document.getElementById('cvopts');if(!box)return;
+    box.addEventListener('click',function(e){var b=e.target.closest('.cvopt');if(!b)return;
+      COB=b.getAttribute('data-cv');
+      box.querySelectorAll('.cvopt').forEach(function(o){o.setAttribute('aria-checked',String(o===b))});
+      paint();});})();
   document.querySelectorAll('#gnc button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#gnc button').forEach(function(o){o.setAttribute('aria-pressed',String(o===b))});paint()})});
   next.addEventListener('click',function(){if(valid()&&step<TOT){step++;paint()}});
   back.addEventListener('click',function(){if(step>1){step--;paint()}});
