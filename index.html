@@ -852,7 +852,7 @@
     <div class="head revealer">
       <p class="kicker">Cotizador de autos</p>
       <h2>Cotizá tu seguro de auto en un minuto.</h2>
-      <p>Seis pasos. Completás los datos y te enviamos el precio por WhatsApp.</p>
+      <p>Cinco pasos. Completás los datos y te enviamos el precio por WhatsApp.</p>
     </div>
     <div class="cotgrid">
     <div class="quo revealer">
@@ -870,9 +870,12 @@
         <p class="err2" id="cpErr" hidden>El código postal tiene 4 números. Por ejemplo: 4107.</p>
       </div>
       <div class="pane" data-p="2">
-        <div class="fld" id="f-mar"><label for="mar">Marca</label>
-          <div class="cbx"><input class="ctl" id="mar" type="text" placeholder="Escribí o seleccioná la marca" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="marList">
-            <ul class="cbl" id="marList" role="listbox" aria-label="Marcas"></ul></div>
+        <div class="two">
+          <div class="fld" id="f-mar"><label for="mar">Marca</label>
+            <div class="cbx"><input class="ctl" id="mar" type="text" placeholder="Escribí o seleccioná la marca" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="marList">
+              <ul class="cbl" id="marList" role="listbox" aria-label="Marcas"></ul></div>
+          </div>
+          <div class="fld" id="f-anio"><label for="anio">Año</label><select class="ctl" id="anio"></select></div>
         </div>
         <div class="fld" id="f-mod"><label for="mod">Modelo</label>
           <div class="cbx"><input class="ctl" id="mod" type="text" placeholder="Seleccioná una marca primero" autocomplete="off" disabled role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="modList">
@@ -896,23 +899,19 @@
             <p class="hint">Si no estás seguro, seleccioná la opción más parecida. Lo confirmamos por WhatsApp.</p>
           </div>
         </div>
+        <div class="two">
+          <div class="fld"><label for="uso">Uso</label><select class="ctl" id="uso"><option>Particular</option><option>Comercial</option></select></div>
+          <div class="fld"><label>¿Tiene equipo de GNC?</label><div class="seg" id="gnc"><button type="button" aria-pressed="false">Sí</button><button type="button" aria-pressed="true">No</button></div></div>
+        </div>
         <p class="hint" id="h-noesta" hidden><a class="noesta" style="color:var(--blue);font-weight:600" target="_blank" rel="noopener">¿No encontrás tu vehículo, o es anterior a 2015?</a> Consultanos y lo cotizamos igual.</p>
       </div>
       <div class="pane" data-p="3">
-        <div class="two">
-          <div class="fld" id="f-anio"><label for="anio">Año del vehículo</label><select class="ctl" id="anio"></select></div>
-          <div class="fld"><label for="uso">Uso</label><select class="ctl" id="uso"><option>Particular</option><option>Comercial</option></select></div>
-        </div>
-        <div class="fld"><label>¿Tiene equipo de GNC?</label><div class="seg" id="gnc"><button type="button" aria-pressed="false">Sí</button><button type="button" aria-pressed="true">No</button></div></div>
-        <p class="hint"><a class="noesta" style="color:var(--blue);font-weight:600" target="_blank" rel="noopener">¿Tu vehículo es anterior a 2015?</a> Consultanos y lo cotizamos igual.</p>
-      </div>
-      <div class="pane" data-p="4">
         <div class="fld" id="f-nac"><label for="nac">Fecha de nacimiento del titular</label>
           <input class="ctl" id="nac" type="date" min="1930-01-01" max="2008-12-31">
           <p class="hint">La compañía calcula la prima con la fecha exacta, no con la edad.</p></div>
         <div class="fld"><label for="nom">Nombre y apellido</label><input class="ctl" id="nom" type="text" placeholder="Como figura en el DNI"></div>
       </div>
-      <div class="pane" data-p="5">
+      <div class="pane" data-p="4">
         <div class="fld"><label>¿Qué cobertura estás buscando?</label>
           <details class="comp">
             <summary>Ver qué cubre cada una</summary>
@@ -933,7 +932,7 @@
           <p class="hint"><b>¿Qué es la franquicia?</b> Es la parte de la reparación que queda a cargo del asegurado cuando se utiliza la cobertura por un daño parcial. Cuanto más baja, más cara la póliza; cuanto más alta, más barata.</p>
         </div>
       </div>
-      <div class="pane" data-p="6">
+      <div class="pane" data-p="5">
         <div class="fin"><div class="ava">EF</div><p class="mn">Último paso: enviá tus datos.</p>
           <p>Al presionar el botón se abre WhatsApp con todos los datos cargados. Te enviamos la cotización en menos de 15 minutos, de 9 a 18.</p>
           <a class="btn btn-1" data-c="wa4" style="justify-content:center;width:100%">Enviar por WhatsApp</a></div>
@@ -945,7 +944,7 @@
     <aside class="cotlado revealer">
       <div class="cbox">
         <h4>Antes de empezar</h4>
-        <div class="cpt"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.4" y="8.8" width="11.2" height="7.8" rx="2"/><path d="M7.2 8.8V6.6A2.8 2.8 0 0 1 12.9 6.2"/></svg><div><b>Seis pasos, un minuto</b><span>Sin registro previo. Cargás los datos del vehículo y del titular, y listo.</span></div></div>
+        <div class="cpt"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.4" y="8.8" width="11.2" height="7.8" rx="2"/><path d="M7.2 8.8V6.6A2.8 2.8 0 0 1 12.9 6.2"/></svg><div><b>Cinco pasos, un minuto</b><span>Sin registro previo. Cargás los datos del vehículo y del titular, y listo.</span></div></div>
         <div class="cpt"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.8 9.6c0 2.9-2.7 5.2-6.1 5.2-.8 0-1.5-.1-2.2-.3l-3.5 1.2 1.1-2.8a5 5 0 0 1-1.5-3.3c0-2.9 2.7-5.2 6.1-5.2s6.1 2.3 6.1 5.2z"/></svg><div><b>Responde un productor matriculado</b><span>Los datos llegan a la oficina y comparamos las compañías de nuestra cartera antes de responder.</span></div></div>
         </div>
 
@@ -1575,20 +1574,32 @@
 
   /* ── Versiones por modelo ────────────────────────────────────────
      Clave: "Marca|Modelo" tal cual figuran en DATA, arriba.
-     Valor: las versiones, escritas como las nombra la compañía.
+     Valor: una lista de versiones. Cada una puede escribirse de dos formas:
+
+       "XEI 1.8 CVT"                 la versión existe en todos los años
+       ["XLI 1.8 MT", 2015, 2019]    la versión solo se ofrece entre esos años
+
+     La segunda es la que conviene: las versiones de un modelo cambian de un
+     año a otro, y el cotizador filtra la lista por el año elegido.
+
+     Ejemplo completo:
+       "Toyota|Corolla": [
+         ["XLI 1.8 MT", 2015, 2019],
+         ["XEI 1.8 CVT", 2015, 2026],
+         ["SEG 1.8 CVT", 2020, 2026]
+       ],
+
      Los modelos que no estén acá muestran las tres preguntas en su lugar,
      así que se puede ir cargando de a poco, sin romper nada.
-     Ejemplo de cómo se agrega:
-       "Toyota|Corolla": ["XLI 1.8 MT","XLI 1.8 CVT","XEI 1.8 CVT"],
   ── */
   var VERS = {
   };
 
   var prov=$('prov'),cp=$('cp'),mar=$('mar'),mod=$('mod'),ver=$('ver'),anio=$('anio'),uso=$('uso'),nac=$('nac'),nom2=$('nom');
   var rail=$('rail'),resume=$('resume'),next=$('next'),back=$('back'),priv=$('priv'),nav2=$('nav2');
-  var step=1,TOT=6;var COB="";
+  var step=1,TOT=5;var COB="";
 
-  ['Zona','Vehículo','Detalles','Titular','Cobertura','Listo'].forEach(function(t,i){
+  ['Zona','Vehículo','Titular','Cobertura','Listo'].forEach(function(t,i){
     var d=document.createElement('div');d.className='rl';d.innerHTML='<i>'+(i+1)+'</i><span>'+t+'</span>';rail.appendChild(d);
   });
 
@@ -1623,6 +1634,7 @@
     }
     inp.addEventListener('input',function(){abrir();alElegir&&alElegir(inp.value);paint()});
     inp.addEventListener('focus',abrir);
+    inp.addEventListener('click',abrir);
     inp.addEventListener('blur',function(){setTimeout(cerrar,120)});
     inp.addEventListener('keydown',function(e){
       var lis=lista.querySelectorAll('li');
@@ -1652,13 +1664,24 @@
 
   /* ── versión: desplegable si la tenemos, tres preguntas si no ── */
   var GUIA={comb:'',caja:'',equip:''}, sinVer=false;
-  function versDe(){return VERS[mar.value+'|'+mod.value]||[]}
-  function modoLista(){return versDe().length>0 && !sinVer}
+  function versDe(){
+    var l=VERS[mar.value+'|'+mod.value]||[], y=+anio.value||0, out=[];
+    for(var i=0;i<l.length;i++){
+      var it=l[i];
+      if(typeof it==='string'){out.push(it);continue}
+      if(!y || ((!it[1]||y>=it[1]) && (!it[2]||y<=it[2])))out.push(it[0]);
+    }
+    return out;
+  }
+  function listo(){return (DATA[mar.value]||[]).indexOf(mod.value)>-1 && !!anio.value}
+  function modoLista(){return listo() && versDe().length>0 && !sinVer}
   function pintarVersion(){
-    var lista=modoLista(), hayModelo=(DATA[mar.value]||[]).indexOf(mod.value)>-1;
-    $('f-ver').hidden=!(hayModelo&&lista);
-    $('f-guia').hidden=!(hayModelo&&!lista);
-    $('h-noesta').hidden=!hayModelo;
+    /* la versión no se pregunta hasta que estén la marca, el modelo y el año:
+       las versiones de un modelo cambian de un año a otro */
+    var ok=listo(), lista=modoLista();
+    $('f-ver').hidden=!(ok&&lista);
+    $('f-guia').hidden=!(ok&&!lista);
+    $('h-noesta').hidden=!(DATA[mar.value]||[]).indexOf(mod.value)>-1;
     if(!lista&&ver)ver.value='';
   }
   function limpiarGuia(){
@@ -1680,6 +1703,7 @@
   (function(){var b=$('noVer'); if(b)b.addEventListener('click',function(){sinVer=true;pintarVersion();paint()})})();
 
   function versionOk(){
+    if(!listo())return false;
     if(modoLista())return versDe().indexOf(ver.value)>-1;
     return !!(GUIA.comb&&GUIA.caja&&GUIA.equip);
   }
@@ -1692,10 +1716,10 @@
   function cpOk(){return /^\d{4}$/.test(cp.value.trim())}
   function valid(){
     if(step===1)return !!prov.value && cpOk();
-    if(step===2)return !!(DATA[mar.value] && (DATA[mar.value]||[]).indexOf(mod.value)>-1) && versionOk();
-    if(step===3)return !!anio.value;
-    if(step===4)return !!(nac.value&&nom2.value.trim());
-    if(step===5)return !!COB;
+    if(step===2)return !!(DATA[mar.value] && (DATA[mar.value]||[]).indexOf(mod.value)>-1)
+                        && !!anio.value && versionOk();
+    if(step===3)return !!(nac.value&&nom2.value.trim());
+    if(step===4)return !!COB;
     return true;
   }
   function chips(){
@@ -1705,7 +1729,7 @@
     if(mar.value&&mod.value)c.push(mar.value+' '+mod.value);
     if(versionTexto())c.push(versionTexto());
     if(anio.value)c.push(anio.value);
-    if(step>=3)c.push(uso.value,'GNC: '+gncVal());
+    if(step>=2&&anio.value)c.push(uso.value,'GNC: '+gncVal());
     if(nom2.value.trim())c.push(nom2.value.trim());
     if(COB)c.push(COB);
     resume.innerHTML=c.map(function(t){return '<span>'+t+'</span>'}).join('');
@@ -1717,12 +1741,12 @@
       d.querySelector('i').textContent=(i+1<step)?'✓':String(i+1);
     });
     var sm=document.getElementById('stepm');
-    if(sm){var nm=['Zona','Vehículo','Detalles','Titular','Cobertura','Listo'][step-1]||'';
+    if(sm){var nm=['Zona','Vehículo','Titular','Cobertura','Listo'][step-1]||'';
       sm.textContent='Paso '+step+' de '+TOT+' · '+nm;}
     back.hidden=step===1||step===TOT;
     nav2.style.display=step===TOT?'none':'';
     priv.style.display=step===TOT?'none':'';
-    next.textContent=step===5?'Ver mi cotización':'Siguiente';
+    next.textContent=step===4?'Ver mi cotización':'Siguiente';
     next.disabled=!valid();chips();refrescarWa4();
   }
   function mark(id,on){var el=$(id);if(el)el.classList.toggle('done',!!on)}
@@ -1736,7 +1760,10 @@
     mark('f-cp',cpOk());paint();
   });
   pintarVersion();
-  anio.addEventListener('change',function(){mark('f-anio',anio.value);paint()});
+  anio.addEventListener('change',function(){
+    mark('f-anio',anio.value);
+    sinVer=false;ver.value='';limpiarGuia();pintarVersion();paint();
+  });
   uso.addEventListener('change',paint);
   nac.addEventListener('change',function(){mark('f-nac',nac.value);paint()});
   nom2.addEventListener('input',paint);
