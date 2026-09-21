@@ -211,7 +211,8 @@
   .cbx{position:relative}
   .cbl{position:absolute;z-index:20;top:calc(100% + 5px);left:0;right:0;max-height:236px;overflow-y:auto;margin:0;padding:5px;list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--sh-3);display:none}
   .cbl.on{display:block}
-  .cbl li{padding:9px 11px;border-radius:7px;font-size:.92rem;cursor:pointer;color:var(--ink)}
+  .cbl li{padding:9px 11px;border-radius:7px;font-size:.92rem;cursor:pointer;color:var(--ink);display:flex;align-items:center;gap:9px}
+  .cbl li img.mlogo{width:20px;height:20px;object-fit:contain;flex:0 0 auto;border-radius:4px;background:#fff}
   .cbl li:hover,.cbl li.sel{background:var(--tint);color:var(--deep)}
   .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   @media(max-width:520px){.two{grid-template-columns:1fr}}
@@ -1543,33 +1544,58 @@
     "Audi":["A1","A3","A4","A5","Q2","Q3","Q5","Q7","Q8"],
     "BAIC":["X35","X55"],
     "BMW":["Serie 1","Serie 2","Serie 3","Serie 5","X1","X2","X3","X4","X5","X6"],
+    "BYD":["Dolphin Mini","Song Pro","Yuan Pro"],
+    "Changan":["CS15","CS55","CS75","MD201"],
     "Chery":["QQ","Arrizo 5","Tiggo 2","Tiggo 3","Tiggo 4","Tiggo 5","Tiggo 8"],
     "Chevrolet":["Onix","Onix Plus","Prisma","Joy","Cruze","Spin","Tracker","Montana","S10","Trailblazer","Equinox","Captiva"],
+    "Chrysler":["300","Town & Country"],
     "Citroën":["C3","C3 Aircross","C4 Cactus","C4 Lounge","Basalt","Berlingo","Jumpy","Jumper"],
-    "DS":["DS3","DS4","DS7"],
+    "Dacia":["Dokker"],
+    "DFSK":["C31","C32","K01H"],
     "Dodge":["Journey"],
+    "Domy":["K2"],
+    "DS":["DS3","DS4","DS7"],
+    "FAW":["Actis T80"],
+    "Ferrari":["488","SF90"],
     "Fiat":["Mobi","Uno","Argo","Cronos","Pulse","Fastback","Palio","Siena","Punto","Toro","Strada","Fiorino","Ducato","500"],
     "Ford":["Ka","Fiesta","Focus","EcoSport","Territory","Bronco Sport","Ranger","Maverick","Kuga","Mondeo","Transit","F-150"],
+    "Foton":["Aumark TM1","Gratour T3","TM1","TM2","Tunland","Wonder"],
     "Geely":["Emgrand"],
+    "Great Wall":["H6","Haval H1","Haval H2","Poer","Wingle 5","Wingle 6","Wingle 7"],
     "Haval":["H6","Jolion"],
     "Honda":["Fit","City","Civic","HR-V","WR-V","CR-V"],
     "Hyundai":["HB20","Creta","Tucson","Santa Fe","Kona","i10","i20"],
+    "Isuzu":["D-Max"],
     "Iveco":["Daily"],
     "JAC":["S2","S3","T6","T8"],
+    "Jaguar":["F-Pace","XE"],
     "Jeep":["Renegade","Compass","Commander","Grand Cherokee","Wrangler"],
+    "Jetour":["Dashing","X70"],
+    "JMC":["Grand Avenue"],
     "Kia":["Picanto","Rio","Cerato","Soul","Seltos","Sportage","Sorento","Carnival"],
+    "KYC":["Mamut","X3"],
     "Land Rover":["Discovery","Discovery Sport","Defender","Range Rover Evoque","Range Rover Sport","Range Rover Velar"],
+    "Lexus":["ES","GS","IS","LBX","LC","NX","RC","RC-F","RX","UX"],
     "Lifan":["530","X60"],
+    "Lotus":["Elise","Emira","Evora","Exige"],
+    "Maserati":["Ghibli","Levante","Quattroporte"],
     "Mercedes-Benz":["Clase A","Clase B","Clase C","Clase E","CLA","GLA","GLB","GLC","GLE","Sprinter","Vito"],
+    "MG":["MG3","ZS"],
+    "Mini":["Clubman","Cooper","Countryman","John Cooper Works"],
     "Mitsubishi":["L200","ASX","Outlander","Montero"],
     "Nissan":["March","Versa","Sentra","Note","Kicks","X-Trail","Frontier"],
     "Peugeot":["208","2008","301","308","408","3008","5008","Partner","Rifter","Expert","Boxer","Landtrek"],
+    "Porsche":["718 Boxster","718 Cayman","911","Cayenne","Panamera","Taycan"],
     "RAM":["700","1000","1500","2500","Rampage"],
     "Renault":["Kwid","Sandero","Stepway","Logan","Duster","Oroch","Captur","Kangoo","Alaskan","Koleos","Megane","Fluence","Master"],
+    "Shineray":["T30","T32"],
+    "Smart":["Forfour","Fortwo"],
+    "Subaru":["Crosstrek","Forester","Impreza","Legacy","Outback","WRX","XV"],
     "Suzuki":["Swift","Baleno","Vitara","S-Cross","Jimny"],
     "Toyota":["Etios","Yaris","Corolla","Corolla Cross","Camry","RAV4","Hilux","SW4","Land Cruiser","Hiace","Prius"],
     "Volkswagen":["Up!","Gol Trend","Voyage","Polo","Virtus","Vento","Golf","Suran","T-Cross","Nivus","Taos","Tiguan","Amarok","Saveiro"],
-    "Volvo":["S60","XC40","XC60","XC90"]
+    "Volvo":["S60","XC40","XC60","XC90"],
+    "Zanella":["Z Truck","Z Truck Duo"]
   };
 
   /* ── Versiones por modelo ────────────────────────────────────────
@@ -7646,6 +7672,1131 @@
    2022,
    2022
   ]
+ ],
+ "BYD|Dolphin Mini": [
+  [
+   "EV GL",
+   2025,
+   2025
+  ],
+  [
+   "EV GS",
+   2025,
+   2025
+  ]
+ ],
+ "BYD|Song Pro": [
+  [
+   "DM-I GL",
+   2025,
+   2025
+  ],
+  [
+   "DM-I GS",
+   2025,
+   2025
+  ]
+ ],
+ "BYD|Yuan Pro": [
+  [
+   "EV GS",
+   2025,
+   2025
+  ]
+ ],
+ "Changan|CS15": [
+  [
+   "Comfort DCT",
+   2019,
+   2020
+  ],
+  [
+   "Comfort MT",
+   2018,
+   2020
+  ],
+  [
+   "Luxury DCT",
+   2018,
+   2020
+  ]
+ ],
+ "Changan|CS55": [
+  [
+   "PLUS",
+   2025,
+   2025
+  ]
+ ],
+ "Changan|CS75": [
+  [
+   "Elite AT 2WD",
+   2019,
+   2020
+  ],
+  [
+   "Luxury AT 4WD",
+   2019,
+   2020
+  ]
+ ],
+ "Changan|MD201": [
+  [
+   "BOX",
+   2019,
+   2025
+  ],
+  [
+   "BOX Refrigerada",
+   2021,
+   2025
+  ],
+  [
+   "Cabina Simple",
+   2019,
+   2025
+  ]
+ ],
+ "Chrysler|300": [
+  [
+   "C",
+   2017,
+   2017
+  ]
+ ],
+ "Chrysler|Town & Country": [
+  [
+   "Limited",
+   2017,
+   2017
+  ]
+ ],
+ "Dacia|Dokker": [
+  [
+   "1.5",
+   2017,
+   2018
+  ]
+ ],
+ "DFSK|C31": [
+  [
+   "Cabina Simple",
+   2018,
+   2025
+  ]
+ ],
+ "DFSK|C32": [
+  [
+   "Cabina Doble",
+   2018,
+   2025
+  ]
+ ],
+ "DFSK|K01H": [
+  [
+   "Cabina Simple",
+   2018,
+   2025
+  ],
+  [
+   "Cabina Y Media",
+   2018,
+   2025
+  ]
+ ],
+ "Domy|K2": [
+  [
+   "Cabina Doble",
+   2025,
+   2025
+  ]
+ ],
+ "FAW|Actis T80": [
+  [
+   "Cabina Simple",
+   2022,
+   2025
+  ]
+ ],
+ "Ferrari|488": [
+  [
+   "Pista",
+   2019,
+   2025
+  ],
+  [
+   "Spider",
+   2017,
+   2017
+  ]
+ ],
+ "Ferrari|SF90": [
+  [
+   "Spider",
+   2023,
+   2024
+  ],
+  [
+   "Stradale",
+   2019,
+   2025
+  ]
+ ],
+ "Foton|Aumark TM1": [
+  [
+   "Cabina Doble",
+   2019,
+   2025
+  ],
+  [
+   "Cabina Simple",
+   2019,
+   2025
+  ]
+ ],
+ "Foton|Gratour T3": [
+  [
+   "Cabina Doble",
+   2018,
+   2022
+  ],
+  [
+   "Cabina Simple",
+   2018,
+   2022
+  ]
+ ],
+ "Foton|TM1": [
+  [
+   "CD",
+   2019,
+   2025
+  ],
+  [
+   "CS",
+   2019,
+   2025
+  ],
+  [
+   "Cabina Doble",
+   2019,
+   2025
+  ],
+  [
+   "Cabina Simple",
+   2019,
+   2025
+  ]
+ ],
+ "Foton|TM2": [
+  [
+   "Cabina Doble",
+   2024,
+   2025
+  ],
+  [
+   "Cabina Simple",
+   2024,
+   2025
+  ]
+ ],
+ "Foton|Tunland": [
+  [
+   "2.0 Cabina Doble",
+   2017,
+   2019
+  ],
+  [
+   "Cabina Doble",
+   2017,
+   2019
+  ],
+  [
+   "G7 4X4 AT Cabina Doble",
+   2025,
+   2025
+  ],
+  [
+   "G7 4X4 MT Cabina Doble",
+   2025,
+   2025
+  ],
+  [
+   "Luxury Cabina Doble",
+   2017,
+   2020
+  ],
+  [
+   "V9 Cabina Doble",
+   2025,
+   2025
+  ]
+ ],
+ "Foton|Wonder": [
+  [
+   "BOX",
+   2025,
+   2025
+  ],
+  [
+   "Cabina Doble",
+   2025,
+   2025
+  ],
+  [
+   "Cabina Simple",
+   2025,
+   2025
+  ]
+ ],
+ "Great Wall|H6": [
+  [
+   "Dignity",
+   2018,
+   2022
+  ]
+ ],
+ "Great Wall|Haval H1": [
+  [
+   "Comfort",
+   2018,
+   2019
+  ],
+  [
+   "Elite",
+   2018,
+   2019
+  ],
+  [
+   "Luxury",
+   2018,
+   2019
+  ]
+ ],
+ "Great Wall|Haval H2": [
+  [
+   "Comfort 1.5T",
+   2018,
+   2019
+  ],
+  [
+   "Luxury 1.5T A/T",
+   2018,
+   2019
+  ]
+ ],
+ "Great Wall|Poer": [
+  [
+   "Elite 6MT 2WD Cabina Doble",
+   2024,
+   2025
+  ],
+  [
+   "Elite 6MT 4WD Cabina Doble",
+   2024,
+   2025
+  ],
+  [
+   "Pilot 2WD Cabina Doble",
+   2024,
+   2025
+  ],
+  [
+   "Pilot 4WD Cabina Doble",
+   2024,
+   2025
+  ]
+ ],
+ "Great Wall|Wingle 5": [
+  [
+   "Luxury Cabina Doble",
+   2018,
+   2021
+  ],
+  [
+   "Standard 4WD Cabina Doble",
+   2018,
+   2021
+  ],
+  [
+   "Standard Cabina Doble",
+   2018,
+   2021
+  ],
+  [
+   "Standard Cabina Simple",
+   2018,
+   2021
+  ]
+ ],
+ "Great Wall|Wingle 6": [
+  [
+   "Dignity 4WD ESP Cabina Doble",
+   2018,
+   2020
+  ]
+ ],
+ "Great Wall|Wingle 7": [
+  [
+   "Luxury 4WD Cabina Doble",
+   2021,
+   2024
+  ],
+  [
+   "Standard 2WD Cabina Doble",
+   2022,
+   2024
+  ]
+ ],
+ "Isuzu|D-Max": [
+  [
+   "4X4 AT Cabina Doble",
+   2025,
+   2025
+  ],
+  [
+   "LS Cabina Doble",
+   2019,
+   2021
+  ],
+  [
+   "RBD 4X4 AT Cabina Doble",
+   2019,
+   2021
+  ],
+  [
+   "RBD 4X4 MT Cabina Doble",
+   2019,
+   2021
+  ]
+ ],
+ "Jaguar|F-Pace": [
+  [
+   "2.0D AWD",
+   2017,
+   2017
+  ],
+  [
+   "30T AWD",
+   2017,
+   2017
+  ],
+  [
+   "35T AWD",
+   2017,
+   2017
+  ],
+  [
+   "35T AWD R-Sport",
+   2017,
+   2017
+  ],
+  [
+   "R-Sport",
+   2017,
+   2017
+  ]
+ ],
+ "Jaguar|XE": [
+  [
+   "25T",
+   2017,
+   2019
+  ],
+  [
+   "25T R-Sport",
+   2017,
+   2017
+  ],
+  [
+   "25T SE",
+   2017,
+   2017
+  ],
+  [
+   "S",
+   2017,
+   2017
+  ]
+ ],
+ "Jetour|Dashing": [
+  [
+   "1.6 T",
+   2024,
+   2025
+  ]
+ ],
+ "Jetour|X70": [
+  [
+   "4X2 1.5 AT",
+   2021,
+   2025
+  ],
+  [
+   "FL",
+   2021,
+   2025
+  ],
+  [
+   "PLUS",
+   2024,
+   2025
+  ]
+ ],
+ "JMC|Grand Avenue": [
+  [
+   "4X2 Cabina Doble",
+   2025,
+   2025
+  ],
+  [
+   "Cabina Doble",
+   2025,
+   2025
+  ]
+ ],
+ "KYC|Mamut": [
+  [
+   "BOX",
+   2020,
+   2022
+  ],
+  [
+   "BOX Refrigerado",
+   2020,
+   2025
+  ],
+  [
+   "Cabina Doble",
+   2020,
+   2025
+  ],
+  [
+   "Cabina Simple",
+   2020,
+   2025
+  ]
+ ],
+ "KYC|X3": [
+  [
+   "Cabina Doble",
+   2020,
+   2025
+  ],
+  [
+   "Cabina Simple",
+   2020,
+   2025
+  ]
+ ],
+ "Lexus|ES": [
+  [
+   "300H Luxury",
+   2020,
+   2022
+  ]
+ ],
+ "Lexus|GS": [
+  [
+   "350 F-Sport",
+   2019,
+   2021
+  ],
+  [
+   "450H",
+   2017,
+   2021
+  ],
+  [
+   "450H F-Sport",
+   2019,
+   2021
+  ],
+  [
+   "450H Luxury",
+   2019,
+   2021
+  ]
+ ],
+ "Lexus|IS": [
+  [
+   "300 F-Sport",
+   2019,
+   2022
+  ],
+  [
+   "300H Luxury",
+   2019,
+   2025
+  ]
+ ],
+ "Lexus|LBX": [
+  [
+   "Active HEV",
+   2022,
+   2025
+  ]
+ ],
+ "Lexus|LC": [
+  [
+   "500",
+   2020,
+   2020
+  ]
+ ],
+ "Lexus|NX": [
+  [
+   "300 F-Sport",
+   2019,
+   2020
+  ],
+  [
+   "300H Luxury",
+   2019,
+   2021
+  ],
+  [
+   "350 F-Sport ML",
+   2022,
+   2022
+  ],
+  [
+   "350H Luxury ML",
+   2022,
+   2022
+  ]
+ ],
+ "Lexus|RC": [
+  [
+   "350 F-Sport",
+   2019,
+   2021
+  ]
+ ],
+ "Lexus|RC-F": [
+  [
+   "Track Edition",
+   2019,
+   2023
+  ]
+ ],
+ "Lexus|RX": [
+  [
+   "350 F-Sport",
+   2019,
+   2022
+  ],
+  [
+   "450H F-Sport",
+   2019,
+   2021
+  ],
+  [
+   "450H Luxury",
+   2019,
+   2021
+  ]
+ ],
+ "Lexus|UX": [
+  [
+   "250H",
+   2020,
+   2025
+  ],
+  [
+   "250H Dynamic",
+   2019,
+   2019
+  ],
+  [
+   "250H F-Sport",
+   2020,
+   2024
+  ],
+  [
+   "300H AWD",
+   2025,
+   2025
+  ]
+ ],
+ "Lotus|Elise": [
+  [
+   "CUP 250",
+   2017,
+   2017
+  ],
+  [
+   "Sport",
+   2017,
+   2017
+  ],
+  [
+   "Sport 220",
+   2017,
+   2017
+  ]
+ ],
+ "Lotus|Emira": [
+  [
+   "V6",
+   2022,
+   2022
+  ]
+ ],
+ "Lotus|Evora": [
+  [
+   "400",
+   2017,
+   2017
+  ],
+  [
+   "Sport 410",
+   2017,
+   2017
+  ]
+ ],
+ "Lotus|Exige": [
+  [
+   "350 Roadster",
+   2017,
+   2017
+  ],
+  [
+   "Sport 350",
+   2017,
+   2017
+  ],
+  [
+   "Sport 350 Roadster",
+   2017,
+   2017
+  ],
+  [
+   "Sport 380",
+   2017,
+   2017
+  ],
+  [
+   "Sport 380 Roadster",
+   2017,
+   2017
+  ]
+ ],
+ "Maserati|Ghibli": [
+  [
+   "S",
+   2019,
+   2019
+  ],
+  [
+   "S Q4",
+   2019,
+   2019
+  ],
+  [
+   "S Q4 Granlusso",
+   2019,
+   2019
+  ],
+  [
+   "S Q4 Gransport",
+   2019,
+   2019
+  ]
+ ],
+ "Maserati|Levante": [
+  [
+   "GTS",
+   2018,
+   2018
+  ],
+  [
+   "Granlusso",
+   2017,
+   2017
+  ],
+  [
+   "Gransport",
+   2017,
+   2017
+  ],
+  [
+   "S",
+   2017,
+   2017
+  ],
+  [
+   "S Granlusso",
+   2017,
+   2017
+  ],
+  [
+   "Trofeo",
+   2018,
+   2018
+  ]
+ ],
+ "Maserati|Quattroporte": [
+  [
+   "GTS",
+   2020,
+   2020
+  ],
+  [
+   "S Q4",
+   2020,
+   2020
+  ]
+ ],
+ "MG|MG3": [
+  [
+   "Hybrid + Comfort",
+   2025,
+   2025
+  ]
+ ],
+ "MG|ZS": [
+  [
+   "1.5AT",
+   2025,
+   2025
+  ],
+  [
+   "Hybrid + Comfort",
+   2025,
+   2025
+  ],
+  [
+   "Hybrid+",
+   2025,
+   2025
+  ]
+ ],
+ "Mini|Clubman": [
+  [
+   "Cooper",
+   2017,
+   2019
+  ],
+  [
+   "Cooper S",
+   2017,
+   2019
+  ]
+ ],
+ "Mini|Cooper": [
+  [
+   "C",
+   2024,
+   2025
+  ],
+  [
+   "Countryman",
+   2018,
+   2018
+  ],
+  [
+   "S",
+   2017,
+   2024
+  ]
+ ],
+ "Mini|Countryman": [
+  [
+   "C",
+   2024,
+   2025
+  ],
+  [
+   "Cooper",
+   2017,
+   2024
+  ],
+  [
+   "Cooper S",
+   2017,
+   2024
+  ],
+  [
+   "S ALL4",
+   2024,
+   2025
+  ]
+ ],
+ "Mini|John Cooper Works": [
+  [
+   "GP",
+   2020,
+   2021
+  ]
+ ],
+ "Porsche|718 Boxster": [
+  [
+   "S",
+   2017,
+   2017
+  ]
+ ],
+ "Porsche|718 Cayman": [
+  [
+   "S",
+   2017,
+   2017
+  ]
+ ],
+ "Porsche|911": [
+  [
+   "Carrera",
+   2023,
+   2023
+  ],
+  [
+   "Carrera 4",
+   2023,
+   2023
+  ],
+  [
+   "Carrera S",
+   2022,
+   2022
+  ],
+  [
+   "GT2 RS",
+   2018,
+   2018
+  ],
+  [
+   "SC",
+   2022,
+   2022
+  ],
+  [
+   "Sport Classic",
+   2023,
+   2023
+  ]
+ ],
+ "Porsche|Cayenne": [
+  [
+   "S",
+   2019,
+   2023
+  ],
+  [
+   "Turbo",
+   2017,
+   2022
+  ]
+ ],
+ "Porsche|Panamera": [
+  [
+   "Turbo",
+   2018,
+   2018
+  ]
+ ],
+ "Porsche|Taycan": [
+  [
+   "4S Electric",
+   2021,
+   2021
+  ],
+  [
+   "Turbo S Electric",
+   2021,
+   2021
+  ]
+ ],
+ "Shineray|T30": [
+  [
+   "Cabina Simple",
+   2018,
+   2025
+  ]
+ ],
+ "Shineray|T32": [
+  [
+   "Cabina Doble",
+   2018,
+   2023
+  ]
+ ],
+ "Smart|Forfour": [
+  [
+   "1.1 Passion",
+   2017,
+   2018
+  ],
+  [
+   "CITY",
+   2017,
+   2018
+  ],
+  [
+   "PLAY",
+   2017,
+   2018
+  ],
+  [
+   "Passion",
+   2017,
+   2018
+  ]
+ ],
+ "Smart|Fortwo": [
+  [
+   "CITY",
+   2017,
+   2018
+  ],
+  [
+   "PLAY",
+   2017,
+   2018
+  ],
+  [
+   "Passion",
+   2017,
+   2018
+  ]
+ ],
+ "Subaru|Crosstrek": [
+  [
+   "2.0I AWD CVT",
+   2024,
+   2025
+  ]
+ ],
+ "Subaru|Forester": [
+  [
+   "2.0 XT",
+   2017,
+   2019
+  ],
+  [
+   "2.0I",
+   2017,
+   2019
+  ],
+  [
+   "2.0I AWD CVT X",
+   2019,
+   2022
+  ],
+  [
+   "2.0I AWD CVT XS",
+   2019,
+   2022
+  ],
+  [
+   "2.0L Dynamic ES",
+   2019,
+   2024
+  ],
+  [
+   "2.5 XS",
+   2019,
+   2023
+  ],
+  [
+   "2.5I",
+   2017,
+   2019
+  ],
+  [
+   "2.5I AWD CVT XS",
+   2019,
+   2023
+  ],
+  [
+   "2.5I Dynamic ES",
+   2019,
+   2025
+  ]
+ ],
+ "Subaru|Impreza": [
+  [
+   "2.0 AWD",
+   2018,
+   2019
+  ],
+  [
+   "2.0I",
+   2018,
+   2019
+  ]
+ ],
+ "Subaru|Legacy": [
+  [
+   "2.5I",
+   2017,
+   2019
+  ]
+ ],
+ "Subaru|Outback": [
+  [
+   "2.5I",
+   2017,
+   2021
+  ],
+  [
+   "3.6R",
+   2017,
+   2021
+  ]
+ ],
+ "Subaru|WRX": [
+  [
+   "2.0T AWD 6MT",
+   2017,
+   2022
+  ],
+  [
+   "2.0T AWD CVT Limited",
+   2017,
+   2021
+  ],
+  [
+   "2.5T AWD 6MT STI",
+   2018,
+   2020
+  ],
+  [
+   "STI",
+   2018,
+   2020
+  ]
+ ],
+ "Subaru|XV": [
+  [
+   "2.0I AWD CVT",
+   2018,
+   2022
+  ],
+  [
+   "2.0I AWD CVT Dynamic",
+   2018,
+   2022
+  ],
+  [
+   "2.0I AWD CVT LTD",
+   2018,
+   2019
+  ]
+ ],
+ "Zanella|Z Truck": [
+  [
+   "Cabina Simple",
+   2018,
+   2025
+  ]
+ ],
+ "Zanella|Z Truck Duo": [
+  [
+   "Cabina Doble",
+   2018,
+   2019
+  ]
  ]
 };
 
@@ -7666,16 +8817,76 @@
   var yrs=[];for(var y=2026;y>=2015;y--)yrs.push(String(y));
   opciones(anio,yrs,'Seleccioná el año');
 
+  /* Logo de cada marca (se muestra en el desplegable al elegir el auto).
+     Las marcas que no tienen archivo acá simplemente no muestran logo. */
+  var LOGOS={
+    "Alfa Romeo":"img/marcas/alfa-romeo.png",
+    "Audi":"img/marcas/audi.png",
+    "BAIC":"img/marcas/baic-motor.png",
+    "BMW":"img/marcas/bmw.png",
+    "BYD":"img/marcas/byd.png",
+    "Changan":"img/marcas/changan.png",
+    "Chery":"img/marcas/chery.png",
+    "Chevrolet":"img/marcas/chevrolet.png",
+    "Chrysler":"img/marcas/chrysler.png",
+    "Citroën":"img/marcas/citroen.png",
+    "DS":"img/marcas/ds.png",
+    "Dacia":"img/marcas/dacia.png",
+    "Dodge":"img/marcas/dodge.png",
+    "FAW":"img/marcas/faw.png",
+    "Ferrari":"img/marcas/ferrari.png",
+    "Fiat":"img/marcas/fiat.png",
+    "Ford":"img/marcas/ford.png",
+    "Foton":"img/marcas/foton.png",
+    "Geely":"img/marcas/geely.png",
+    "Great Wall":"img/marcas/great-wall.png",
+    "Haval":"img/marcas/haval.png",
+    "Honda":"img/marcas/honda.png",
+    "Hyundai":"img/marcas/hyundai.png",
+    "Isuzu":"img/marcas/isuzu.png",
+    "Iveco":"img/marcas/iveco.png",
+    "JAC":"img/marcas/jac.png",
+    "JMC":"img/marcas/jmc.png",
+    "Jaguar":"img/marcas/jaguar.png",
+    "Jeep":"img/marcas/jeep.png",
+    "Jetour":"img/marcas/jetour.png",
+    "Kia":"img/marcas/kia.png",
+    "Land Rover":"img/marcas/land-rover.png",
+    "Lexus":"img/marcas/lexus.png",
+    "Lifan":"img/marcas/lifan.png",
+    "Lotus":"img/marcas/lotus.png",
+    "MG":"img/marcas/mg.png",
+    "Maserati":"img/marcas/maserati.png",
+    "Mercedes-Benz":"img/marcas/mercedes-benz.png",
+    "Mini":"img/marcas/mini.png",
+    "Mitsubishi":"img/marcas/mitsubishi.png",
+    "Nissan":"img/marcas/nissan.png",
+    "Peugeot":"img/marcas/peugeot.png",
+    "Porsche":"img/marcas/porsche.png",
+    "RAM":"img/marcas/ram.png",
+    "Renault":"img/marcas/renault.png",
+    "Smart":"img/marcas/smart.png",
+    "Subaru":"img/marcas/subaru.png",
+    "Suzuki":"img/marcas/suzuki.png",
+    "Toyota":"img/marcas/toyota.png",
+    "Volkswagen":"img/marcas/volkswagen.png",
+    "Volvo":"img/marcas/volvo.png"
+  };
+
   /* ---- buscador con sugerencias (sirve igual con 30 marcas que con 3.000) ---- */
-  function buscador(inp,lista,fuente,alElegir){
+  function buscador(inp,lista,fuente,alElegir,logoFn){
     var idx=-1;
     function cerrar(){lista.innerHTML='';lista.classList.remove('on');inp.setAttribute('aria-expanded','false');idx=-1}
-    function abrir(){
-      var q=inp.value.trim().toLowerCase(), todos=fuente();
-      var r=todos.filter(function(t){return t.toLowerCase().indexOf(q)>-1});
+    function abrir(mostrarTodos){
+      var q=mostrarTodos?'':inp.value.trim().toLowerCase(), todos=fuente();
+      var r=q?todos.filter(function(t){return t.toLowerCase().indexOf(q)>-1}):todos.slice();
       if(q){ r.sort(function(a,b){return a.toLowerCase().indexOf(q)-b.toLowerCase().indexOf(q)}) }
       if(!r.length){cerrar();return}
-      lista.innerHTML=r.slice(0,80).map(function(t,i){return '<li role="option" data-v="'+t.replace(/"/g,'&quot;')+'">'+t+'</li>'}).join('');
+      lista.innerHTML=r.slice(0,80).map(function(t,i){
+        var logo=logoFn&&logoFn(t);
+        var img=logo?'<img class="mlogo" alt="" src="'+logo+'">':'';
+        return '<li role="option" data-v="'+t.replace(/"/g,'&quot;')+'">'+img+'<span>'+t+'</span></li>';
+      }).join('');
       lista.classList.add('on');inp.setAttribute('aria-expanded','true');idx=-1;
       lista.querySelectorAll('li').forEach(function(li){
         li.addEventListener('mousedown',function(e){e.preventDefault();elegir(li.dataset.v)});
@@ -7686,26 +8897,45 @@
       var lis=lista.querySelectorAll('li');
       lis.forEach(function(l,i){l.classList.toggle('sel',i===idx);if(i===idx)l.scrollIntoView({block:'nearest'})});
     }
-    inp.addEventListener('input',function(){abrir();alElegir&&alElegir(inp.value);paint()});
-    inp.addEventListener('focus',abrir);
-    inp.addEventListener('click',abrir);
+    inp.addEventListener('input',function(){abrir(false);alElegir&&alElegir(inp.value);paint()});
+    inp.addEventListener('focus',function(){abrir(true)});
+    inp.addEventListener('click',function(){abrir(true)});
     inp.addEventListener('blur',function(){setTimeout(cerrar,120)});
     inp.addEventListener('keydown',function(e){
       var lis=lista.querySelectorAll('li');
-      if(e.key==='ArrowDown'){e.preventDefault();if(!lis.length){abrir();return}idx=Math.min(idx+1,lis.length-1);marcar()}
+      if(e.key==='ArrowDown'){e.preventDefault();if(!lis.length){abrir(true);return}idx=Math.min(idx+1,lis.length-1);marcar()}
       else if(e.key==='ArrowUp'){e.preventDefault();idx=Math.max(idx-1,0);marcar()}
       else if(e.key==='Enter'){if(idx>-1&&lis[idx]){e.preventDefault();elegir(lis[idx].dataset.v)}}
       else if(e.key==='Escape'){cerrar()}
     });
   }
 
-  buscador(mar,$('marList'),function(){return Object.keys(DATA)},function(v){
+  /* Orden de marcas por cuánto se venden en Argentina: del 1 al 10 son datos
+     reales de ACARA (patentamientos 2025). De ahí en adelante es un orden
+     aproximado (marcas comunes primero, importaciones chicas / de lujo al final),
+     porque no hay ranking oficial completo de todas las marcas. */
+  var ORDEN_MARCAS=["Toyota","Volkswagen","Fiat","Renault","Peugeot","Ford","Chevrolet","Citroën","Jeep","Nissan",
+    "Honda","Hyundai","Kia","RAM","Chery","Suzuki","Mitsubishi","Subaru","DS",
+    "Haval","JAC","BYD","Great Wall","Geely","Jetour","Changan","MG","Iveco",
+    "Mercedes-Benz","Audi","BMW","Volvo","Land Rover","Mini","Jaguar",
+    "Lifan","FAW","Foton","Isuzu","JMC","Dacia","Chrysler","Dodge","Smart","BAIC","Alfa Romeo","Lexus",
+    "Porsche","Maserati","Ferrari","Lotus",
+    "DFSK","KYC","Domy","Shineray","Zanella"];
+  function marcasPorPopularidad(){
+    var idx={};ORDEN_MARCAS.forEach(function(m,i){idx[m]=i});
+    return Object.keys(DATA).sort(function(a,b){
+      var ia=idx.hasOwnProperty(a)?idx[a]:999, ib=idx.hasOwnProperty(b)?idx[b]:999;
+      return ia!==ib?ia-ib:a.localeCompare(b);
+    });
+  }
+
+  buscador(mar,$('marList'),marcasPorPopularidad,function(v){
     if(!DATA[v]){mod.value='';mod.disabled=true;mod.placeholder='Seleccioná una marca primero'}
     else{mod.disabled=false;mod.placeholder='Escribí o seleccioná el modelo'}
     if(DATA[v]===undefined||mod.value&&DATA[v].indexOf(mod.value)<0)mod.value='';
     mark('f-mar',!!DATA[v]);
     sinVer=false;ver.value='';limpiarGuia();pintarVersion();
-  });
+  },function(v){return LOGOS[v]});
   buscador(mod,$('modList'),function(){return DATA[mar.value]||[]},function(v){
     mark('f-mod',(DATA[mar.value]||[]).indexOf(v)>-1);
     sinVer=false;ver.value='';limpiarGuia();pintarVersion();
