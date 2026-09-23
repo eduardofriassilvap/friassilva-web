@@ -51,7 +51,7 @@
     --maxw:1120px;
   }
   *{box-sizing:border-box}
-  body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{background:linear-gradient(128deg,#F4F5F7 0%,#EEF0F2 30%,#F6F7F8 55%,#EDEFF1 78%,#F4F5F7 100%);background-attachment:fixed;color:var(--ink);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   h1,h2,h3,.mn{font-family:Manrope,system-ui,sans-serif;letter-spacing:-.03em;margin:0;text-wrap:balance}
   p{margin:0} a{color:inherit}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
@@ -146,6 +146,21 @@
   .dot{width:7px;height:7px;border-radius:50%;background:#4EDD9A;flex:none;box-shadow:0 0 0 3px rgba(78,221,154,.22)}
   @media (prefers-reduced-motion:no-preference){.dot{animation:pulse 2.4s ease-in-out infinite}}
   @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(78,221,154,.22)}50%{box-shadow:0 0 0 7px rgba(78,221,154,.05)}}
+
+  /* --- muestra: las formas borrosas que ya existian en el diseño, ahora con una deriva lenta --- */
+  @keyframes blobA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(36px,26px) scale(1.08)}}
+  @keyframes blobB{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-30px,-24px) scale(1.1)}}
+  @media (prefers-reduced-motion:no-preference){
+    .cotwrap::before{animation:blobA 22s ease-in-out infinite}
+    .ramos::before{animation:blobA 27s ease-in-out infinite}
+    .ramos::after{animation:blobB 31s ease-in-out infinite}
+    .pasos::before{animation:blobB 24s ease-in-out infinite}
+    footer::before{animation:blobA 29s ease-in-out infinite}
+    .shero::after{animation:blobB 20s ease-in-out infinite}
+    .askbar::after{animation:blobA 25s ease-in-out infinite}
+    .stats-strip::before{animation:blobB 23s ease-in-out infinite}
+    .testis::before{animation:blobA 26s ease-in-out infinite}
+  }
   .assur{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px;font-size:.78rem;color:rgba(255,255,255,.6)}
   .dots{position:absolute;z-index:3;right:24px;bottom:26px;display:flex;gap:8px}
   .dots button{width:28px;height:4px;border-radius:2px;border:0;background:rgba(255,255,255,.32);cursor:pointer;padding:0;transition:background .3s,width .3s}
@@ -236,6 +251,50 @@
   .st{text-align:center}
   .st b{display:block;font-family:Manrope,sans-serif;font-weight:800;font-size:1.95rem;letter-spacing:-.04em;background:linear-gradient(140deg,var(--deep),var(--lift));-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums}
   .st span{font-size:.79rem;color:var(--faint)}
+  .stats-strip{position:relative;overflow:hidden;padding:44px 0;background:#F6F9FC}
+  .stats-strip::before{content:"";position:absolute;width:520px;height:520px;top:-260px;left:50%;margin-left:-260px;
+    border-radius:50%;filter:blur(90px);pointer-events:none;background:radial-gradient(circle,rgba(76,143,212,.16),transparent 68%)}
+  .stats-strip .wrap{position:relative;z-index:1}
+  .stats-row{display:flex;justify-content:center;gap:56px;flex-wrap:wrap}
+  @media(max-width:640px){.stats-row{gap:30px}.st b{font-size:1.6rem}}
+
+  /* --- muestra: reseñas --- */
+  .demo-note{color:#B45309;font-weight:600}
+  .testis{position:relative;overflow:hidden;padding:64px 0}
+  .testis::before{content:"";position:absolute;width:560px;height:560px;bottom:-300px;right:-200px;
+    border-radius:50%;filter:blur(90px);pointer-events:none;background:radial-gradient(circle,rgba(76,143,212,.14),transparent 68%)}
+  .testis .wrap{position:relative;z-index:1}
+  .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+  @media(max-width:860px){.tgrid{grid-template-columns:1fr}}
+  .tgrid-2{grid-template-columns:repeat(2,1fr);max-width:820px;margin-left:auto;margin-right:auto}
+  @media(max-width:860px){.tgrid-2{grid-template-columns:1fr}}
+
+  /* --- muestra: banner para invitar a dejar reseña en Google --- */
+  .gband{margin-top:26px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+    background:var(--surface);border:1px solid var(--line);border-radius:16px;
+    padding:22px 26px;box-shadow:var(--sh-2)}
+  .gleft{flex:none;width:56px;height:56px;border-radius:14px;background:var(--tint);
+    display:flex;align-items:center;justify-content:center}
+  .gmid{flex:1 1 260px}
+  .gttl{font-family:Manrope,sans-serif;font-weight:800;font-size:1.05rem;color:var(--ink)}
+  .gsub{font-size:.85rem;color:var(--body);margin-top:4px}
+  .gbtn{flex:none}
+  @media(max-width:640px){.gband{flex-direction:column;text-align:center}.gbtn{width:100%;justify-content:center}}
+  .tcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s}
+  .tcard:hover{transform:translateY(-6px);box-shadow:var(--sh-3);border-color:#BFD3E6}
+  .tcard .stars{color:#F5A524;letter-spacing:2px;font-size:.95rem;margin-bottom:10px}
+  .tcard p{color:var(--body);font-size:.92rem;line-height:1.55}
+  .tcard .tname{display:block;margin-top:14px;font-size:.8rem;font-weight:600;color:var(--deep)}
+
+  /* --- muestra: franja de aseguradoras, logos reales deslizando en bucle --- */
+  .insurers{padding:44px 0 50px;background:linear-gradient(115deg,#aab0b9 0%,#dde1e5 18%,#9fa5af 36%,#e8ebee 54%,#a4aab3 72%,#d9dde1 88%,#aab0b9 100%);overflow:hidden}
+  .imarquee{position:relative;width:100%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+  .itrack{display:flex;align-items:center;width:max-content;will-change:transform;animation:marquee 30s linear infinite}
+  @media(prefers-reduced-motion:reduce){.itrack{animation:none;flex-wrap:wrap;justify-content:center;width:auto}}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translate3d(-50%,0,0)}}
+  .ilogo{flex:none;height:44px;margin:0 40px;display:flex;align-items:center;justify-content:center}
+  .ilogo img{height:100%;width:auto;max-width:360px;object-fit:contain;opacity:.92;transition:opacity .25s}
+  .ilogo:hover img{opacity:1}
 
   /* RAMOS */
   .ramos{position:relative;background:var(--night);padding:78px 0 84px;overflow:hidden}
@@ -308,6 +367,32 @@
     .p.open .rest{max-height:340px;opacity:1;margin-top:16px}
   }
 
+  /* --- muestra: mas presencia y profundidad en las tarjetas de coberturas --- */
+  .p{box-shadow:0 14px 34px -18px rgba(0,0,0,.55)}
+  .p:not(.open):hover{box-shadow:0 18px 38px -18px rgba(76,143,212,.9),0 14px 34px -18px rgba(0,0,0,.5)}
+  .art{opacity:.1}
+  .p:not(.open):hover .art{opacity:.13}
+  .p.open .art{opacity:.3}
+
+  /* foto de portada por categoria, con degradado oscuro para que el texto se siga leyendo */
+  .pcov{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;
+    transition:transform .6s cubic-bezier(.2,.7,.3,1)}
+  .pcov::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(178deg,rgba(8,20,33,.25) 0%,rgba(8,20,33,.62) 55%,rgba(8,20,33,.93) 100%)}
+  .p:not(.open):hover .pcov{transform:scale(1.07)}
+  .p.open .pcov::after{background:linear-gradient(178deg,rgba(12,30,48,.35) 0%,rgba(12,30,48,.7) 45%,rgba(12,30,48,.95) 100%)}
+
+  /* insignia chica y nitida, reutiliza el mismo dibujo en vez del gigante desvanecido de fondo */
+  .rico{width:46px;height:46px;flex:none;border-radius:13px;display:flex;align-items:center;
+    justify-content:center;margin-bottom:13px;
+    background:linear-gradient(150deg,var(--lift),var(--blue));
+    box-shadow:0 8px 18px -8px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.28)}
+  .rico .art{position:static;width:26px;height:26px;opacity:1;pointer-events:none}
+  .p:hover .rico{transform:rotate(-4deg) scale(1.06)}
+  .p.open .rico{background:linear-gradient(150deg,#fff,#CDE6FF)}
+  .p.open .rico .art{stroke:var(--deep)}
+  .p.open .rico .art path[fill="#fff"],.p.open .rico .art rect[fill="#fff"]{fill:var(--deep);fill-opacity:.35}
+
   /* MODAL */
   .ov{position:fixed;inset:0;z-index:120;background:rgba(9,22,36,.62);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .28s}
   .ov.on{opacity:1;pointer-events:auto}
@@ -343,9 +428,8 @@
   .warn{font-size:.735rem;color:var(--faint);margin-top:14px;background:var(--tint);border-radius:7px;padding:10px 12px}
 
   /* PANELES */
-  .panels{background:var(--surface);border-top:1px solid var(--line);padding:26px 0 72px}
-  .panel{border-bottom:1px solid var(--line);scroll-margin-top:78px}
-  .panel:first-child{border-top:1px solid var(--line)}
+  .panels{background:linear-gradient(128deg,#F4F5F7 0%,#EEF0F2 30%,#F6F7F8 55%,#EDEFF1 78%,#F4F5F7 100%);padding:26px 0 72px}
+  .panel{scroll-margin-top:78px}
   .phead{width:100%;background:none;border:0;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:28px 62px 28px 0;position:relative;display:block;transition:padding-left .38s cubic-bezier(.2,.7,.3,1)}
   .phead:hover{padding-left:10px}
   .phead:focus-visible{outline:2px solid var(--blue);outline-offset:-4px;border-radius:6px}
@@ -566,6 +650,14 @@
   .pcard.hl:hover .pico{background:#9CC9F2;color:var(--night)}
   .pcard.hl .ult{color:#9CC9F2;border-top-color:rgba(255,255,255,.14)}
 
+  /* --- muestra: mas peso visual en los iconos de "como trabajamos" --- */
+  .pico{background:linear-gradient(150deg,var(--blue),var(--deep));color:#fff;
+    box-shadow:0 8px 16px -7px rgba(34,67,101,.55),inset 0 1px 0 rgba(255,255,255,.25)}
+  .pcard:hover .pico{background:linear-gradient(150deg,var(--lift),var(--blue));
+    box-shadow:0 10px 20px -7px rgba(34,67,101,.7),inset 0 1px 0 rgba(255,255,255,.3)}
+  .pcard.hl .pico{background:linear-gradient(150deg,#CFE6FB,#9CC9F2);color:var(--night)}
+  .pcard.hl:hover .pico{background:#fff}
+
   @media(max-width:900px){.pgrid{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:560px){
     .pgrid{grid-template-columns:1fr;gap:14px}
@@ -673,9 +765,12 @@
   .chips b{font-size:.8rem}
   .p .cnt{font-size:.82rem;line-height:1.5}
   #waFlot{position:fixed;right:16px;bottom:18px;z-index:70;width:56px;height:56px;border-radius:50%;
-    background:#25D366;display:none;place-items:center;box-shadow:0 8px 22px -6px rgba(18,33,47,.45);}
+    background:#25D366;display:none;place-items:center;box-shadow:0 8px 22px -6px rgba(18,33,47,.45);transition:transform .2s ease}
   #waFlot svg{width:29px;height:29px;stroke:#fff}
+  #waFlot:hover{transform:scale(1.08)}
   @media(max-width:900px){#waFlot{display:grid}}
+  @media(prefers-reduced-motion:no-preference){#waFlot{animation:waPulse 2.6s ease-in-out infinite}}
+  @keyframes waPulse{0%,100%{box-shadow:0 8px 22px -6px rgba(18,33,47,.45),0 0 0 0 rgba(37,211,102,.55)}50%{box-shadow:0 8px 22px -6px rgba(18,33,47,.45),0 0 0 12px rgba(37,211,102,0)}}
   @media print{#waFlot{display:none}}
 </style>
 
@@ -960,6 +1055,15 @@
   </div>
 </section>
 
+<!-- MUESTRA: franja de numeros animados (usa el sistema .st que ya estaba en el CSS/JS, sin usar) -->
+<section class="stats-strip">
+  <div class="wrap stats-row revealer">
+    <div class="st"><b data-to="16" data-suf=" años">0</b><span>Protegiendo familias y negocios</span></div>
+    <div class="st"><b data-to="15" data-suf=" min">0</b><span>Tiempo de respuesta por WhatsApp</span></div>
+    <div class="st"><b data-to="100" data-suf="%">0</b><span>Asesoramiento humano, sin bots</span></div>
+  </div>
+</section>
+
 <!-- PASOS -->
 <section class="pasos" id="pasos">
   <div class="wrap">
@@ -968,9 +1072,9 @@
       <h2>Antes, durante y después de la póliza.</h2>
       <p class="sub">Cuatro etapas que cubren el ciclo completo: desde la consulta inicial hasta la gestión de un siniestro.</p>
     </div>
-    <div class="pgrid revealer">
+    <div class="pgrid">
 
-      <div class="pcard">
+      <div class="pcard revealer" style="transition-delay:0ms">
         <span class="pmark" aria-hidden="true">1</span>
         <div class="ptop"><span class="pico"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M26.4 15.8c0 4.7-4.4 8.5-9.8 8.5-1.2 0-2.4-.2-3.5-.5l-5.5 1.9 1.7-4.5c-1.6-1.5-2.5-3.4-2.5-5.4 0-4.7 4.4-8.5 9.8-8.5s9.8 3.8 9.8 8.5z"/><path d="M12.7 15.8h.02M16.7 15.8h.02M20.7 15.8h.02"/></svg></span><span class="pn">Paso 1</span></div>
         <h3>Analizamos qué necesitás cubrir</h3>
@@ -978,7 +1082,7 @@
         <span class="ult"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7.4"/><path d="M6.9 10.2l2.2 2.2 4.1-4.4"/></svg>Sin turno previo</span>
       </div>
 
-      <div class="pcard">
+      <div class="pcard revealer" style="transition-delay:110ms">
         <span class="pmark" aria-hidden="true">2</span>
         <div class="ptop"><span class="pico"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7v18"/><path d="M7.5 11.2h17"/><path d="M12 26h8"/><path d="M7.5 11.2 4.4 18h6.2L7.5 11.2z"/><path d="M24.5 11.2 21.4 18h6.2l-3.1-6.8z"/></svg></span><span class="pn">Paso 2</span></div>
         <h3>Comparamos entre las compañías</h3>
@@ -986,7 +1090,7 @@
         <span class="ult"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7.4"/><path d="M6.9 10.2l2.2 2.2 4.1-4.4"/></svg>Comparación por escrito</span>
       </div>
 
-      <div class="pcard">
+      <div class="pcard revealer" style="transition-delay:220ms">
         <span class="pmark" aria-hidden="true">3</span>
         <div class="ptop"><span class="pico"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5.6h9.6l4.9 4.9v15.9H9z"/><path d="M18.6 5.6v4.9h4.9"/><path d="M12.6 15.2h7.4M12.6 19h7.4M12.6 22.8h4.4"/></svg></span><span class="pn">Paso 3</span></div>
         <h3>Te explicamos la póliza antes de contratar</h3>
@@ -994,7 +1098,7 @@
         <span class="ult"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7.4"/><path d="M6.9 10.2l2.2 2.2 4.1-4.4"/></svg>Condiciones explicadas</span>
       </div>
 
-      <div class="pcard hl">
+      <div class="pcard hl revealer" style="transition-delay:330ms">
         <span class="pmark" aria-hidden="true">4</span>
         <div class="ptop"><span class="pico"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 5.4 7 8.7v7c0 5.1 3.8 9 9 10.3 5.2-1.3 9-5.2 9-10.3v-7l-9-3.3z"/><path d="M12.2 15.9l2.9 2.9 5-5.4"/></svg></span><span class="pn">Paso 4</span></div>
         <h3>Gestionamos el siniestro en tu nombre</h3>
@@ -1135,6 +1239,41 @@
 
 </div>
 </div>
+
+<!-- MUESTRA: invitar a dejar reseña en Google (mejor para el SEO que reseñas propias) -->
+<section class="testis">
+  <div class="wrap">
+    <div class="gband revealer">
+      <div class="gleft">
+        <svg width="34" height="34" viewBox="0 0 48 48" aria-hidden="true">
+          <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+          <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+          <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+          <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+        </svg>
+      </div>
+      <div class="gmid">
+        <p class="gttl">¿Te atendimos bien? Contanos en Google.</p>
+        <p class="gsub">Te toma menos de un minuto y nos ayuda a que más gente en Tucumán nos encuentre. <span class="demo-note">(4.9★ de ejemplo — poner el puntaje real)</span></p>
+      </div>
+      <a class="btn btn-1 gbtn" href="#" target="_blank" rel="noopener">Dejar mi reseña en Google →</a>
+    </div>
+  </div>
+</section>
+
+<!-- MUESTRA: franja de aseguradoras con logos reales, deslizando en bucle -->
+<section class="insurers">
+  <div class="imarquee revealer">
+    <div class="itrack">
+      <span class="ilogo"><img src="img/aseguradoras/zurich.svg" alt="Zurich"></span>
+      <span class="ilogo"><img src="img/aseguradoras/sancor.svg" alt="Sancor Seguros"></span>
+      <span class="ilogo"><img src="img/aseguradoras/zurich.svg" alt="Zurich"></span>
+      <span class="ilogo"><img src="img/aseguradoras/sancor.svg" alt="Sancor Seguros"></span>
+      <span class="ilogo"><img src="img/aseguradoras/zurich.svg" alt="Zurich"></span>
+      <span class="ilogo"><img src="img/aseguradoras/sancor.svg" alt="Sancor Seguros"></span>
+    </div>
+  </div>
+</section>
 
 <footer>
   <div class="wrap">
@@ -1315,6 +1454,8 @@
     "Plan de ahorro":'<svg class="art" viewBox="0 0 120 120" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 98h92"/><rect x="26" y="68" width="17" height="30" fill="#fff" fill-opacity=".25" stroke="none"/><rect x="52" y="54" width="17" height="44" fill="#fff" fill-opacity=".38" stroke="none"/><rect x="78" y="38" width="17" height="60" fill="#fff" fill-opacity=".55" stroke="none"/><path d="M24 56l22-16 16 10 32-26"/><path d="M82 24h12v12"/></svg>',
     "Retiro":'<svg class="art" viewBox="0 0 120 120" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 100h96"/><circle cx="60" cy="56" r="34"/><path d="M60 34v24l16 10" stroke-width="5"/><path d="M60 14v8M60 90v8M18 56h8M94 56h8" stroke-width="3.4" opacity=".6"/></svg>'
   };
+  /* muestra: foto de portada por categoria (reutiliza fotos que ya existian) */
+  var PORTADA_RAMO={veh:"img/cob-auto.jpg",fam:"img/cob-hogar.jpg",neg:"img/cob-comercio.jpg",fut:"img/cob-plan-ahorro.jpg"};
   var G=[
     {id:"veh",t:"Vehículos",go:"Cotizar ahora",items:[
       {n:"Auto",d:"Cubre los daños que tu auto le pueda causar a otros —eso es obligatorio para poder circular— y, según el plan que elijas, también los daños al tuyo.",b:["Responsabilidad civil ante terceros, que es la parte obligatoria","Robo e incendio, total o parcial según el plan","Daños a tu auto por accidente, con o sin franquicia","Cristales y granizo, según el plan","Asistencia las 24 horas: mecánica, remolque y auxilio"],cot:true},
@@ -1341,7 +1482,7 @@
   G.forEach(function(g,i){
     var b=document.createElement('button');
     b.className='p';b.setAttribute('aria-expanded','false');
-    b.innerHTML=ART[g.id]+'<span class="in"><span class="ttl">'+g.t+'</span><span class="cnt">'+g.items.map(function(it){return it.n}).join(' · ')+'</span>'+
+    b.innerHTML='<span class="pcov" style="background-image:url(\''+PORTADA_RAMO[g.id]+'\')"></span><span class="in"><span class="rico">'+ART[g.id]+'</span><span class="ttl">'+g.t+'</span><span class="cnt">'+g.items.map(function(it){return it.n}).join(' · ')+'</span>'+
       '<span class="rest"><span class="chips">'+g.items.map(function(it,j){return '<b role="button" tabindex="0" data-j="'+j+'">'+it.n+'</b>'}).join('')+'</span>'+
       '<span class="go">'+g.go+' <i>→</i></span></span></span>'+
       '<span class="pv"><ul>'+
