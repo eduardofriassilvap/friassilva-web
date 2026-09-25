@@ -196,6 +196,14 @@
   @media(max-width:940px){
     .cotgrid{grid-template-columns:1fr;max-width:560px}
   }
+  .cothist{max-width:930px;margin:20px auto 0;background:var(--tint);border:1px solid var(--line);border-radius:16px;padding:18px 22px}
+  .ch-ttl{font-family:Manrope,sans-serif;font-weight:700;font-size:.88rem;color:var(--deep);margin:0 0 10px}
+  .ch-list{display:flex;flex-direction:column;gap:8px}
+  .ch-item{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.85rem}
+  .ch-item svg{flex:none;width:17px;height:17px;color:#3AA35A}
+  .ch-item b{font-weight:600;color:var(--ink)}
+  .ch-item span{display:block;color:var(--body);font-size:.79rem;margin-top:1px}
+  .ch-sub{font-size:.79rem;color:var(--faint);margin:12px 0 0}
   .rail{display:flex;align-items:flex-start;gap:4px;margin-bottom:18px}
   .rl{flex:1;text-align:center;position:relative;min-width:0}
   .rl::before{content:"";position:absolute;top:11px;left:-50%;right:50%;height:2px;background:var(--line-2)}
@@ -1043,11 +1051,6 @@
           <p class="hint"><b>¿Qué es la franquicia?</b> Es la parte de la reparación que queda a cargo del asegurado cuando se utiliza la cobertura por un daño parcial. Cuanto más baja, más cara la póliza; cuanto más alta, más barata.</p>
         </div>
       </div>
-      <div class="pane" data-p="5">
-        <div class="fin"><div class="ava">EF</div><p class="mn">¡Listo! Ya se abrió WhatsApp con tu cotización.</p>
-          <p>Te respondemos en menos de 15 minutos, de 9 a 18. Si no se abrió automáticamente, tocá el botón.</p>
-          <a class="btn btn-1" data-c="wa4" style="justify-content:center;width:100%">Abrir WhatsApp</a></div>
-      </div>
       <div class="nav2" id="nav2"><button class="lnk" id="back" hidden>← Volver</button><span></span><button class="btn btn-1" id="next" disabled>Siguiente</button></div>
       <p class="priv" id="priv">Los datos se usan solo para calcular tu cobertura.</p>
     </div>
@@ -1066,6 +1069,11 @@
       </div>
     </aside>
 
+    </div>
+    <div class="cothist" id="cothist" hidden>
+      <p class="ch-ttl">Ya cotizaste en esta sesión</p>
+      <div class="ch-list" id="chList"></div>
+      <p class="ch-sub">Si querés cotizar otro vehículo, completá el formulario de nuevo: quedó libre arriba.</p>
     </div>
   </div>
 </section>
@@ -1356,10 +1364,10 @@
      En "ramo", {ramo} se reemplaza solo por el nombre del seguro.
      =================================================================== */
   var MSG={
-    W1_header    : 'Hola, quiero hacer una consulta. W1',
-    W2_asesor    : 'Hola, quiero que me asesoren. W2',
-    W3_ramo      : 'Hola, quiero asesorarme sobre {ramo}. W3',
-    W5_contacto  : 'Hola, quiero hacer una consulta. W5',
+    W1_header    : 'Hola, quiero hacer una consulta.',
+    W2_asesor    : 'Hola, quiero que me asesoren.',
+    W3_ramo      : 'Hola, quiero asesorarme sobre {ramo}.',
+    W5_contacto  : 'Hola, quiero hacer una consulta.',
     mailAsunto   : 'Consulta desde la web',
     mailCuerpo   : 'Hola, quiero hacer una consulta sobre:'
   };
@@ -1584,15 +1592,15 @@
      valores cargados en el formulario del cotizador. */
   function mensajeCotizacion(){
     var L=[];
-    L.push('¡Hola! 👋 Quiero cotizar mi seguro de auto. Estos son mis datos:');
+    L.push('¡Hola! Quiero cotizar mi seguro de auto. Estos son mis datos:');
     try{
       L.push('');
-      L.push('📍 *Zona*');
+      L.push('*Zona*');
       if(prov&&prov.value)L.push('Provincia: '+prov.value);
       if(cp&&cpOk())L.push('Código postal: '+cp.value.trim());
 
       L.push('');
-      L.push('🚗 *Vehículo*');
+      L.push('*Vehículo*');
       if(mar&&mar.value)L.push('Marca: '+mar.value);
       if(mod&&mod.value)L.push('Modelo: '+mod.value);
       if(versionTexto())L.push('Versión: '+versionTexto());
@@ -1601,13 +1609,13 @@
       L.push('Equipo de GNC: '+gncVal());
 
       L.push('');
-      L.push('👤 *Titular*');
+      L.push('*Titular*');
       if(nom2&&nom2.value.trim())L.push('Nombre: '+nom2.value.trim());
       if(nac&&nac.value)L.push('Fecha de nacimiento: '+nac.value.split('-').reverse().join('/'));
 
       if(COB&&COB.length){
         L.push('');
-        L.push('🛡️ *'+(COB.length>1?'Coberturas a comparar':'Cobertura')+'*');
+        L.push('*'+(COB.length>1?'Coberturas a comparar':'Cobertura')+'*');
         COB.forEach(function(c,i){L.push((i+1)+'. '+c)});
       }
     }catch(e){}
@@ -1618,7 +1626,7 @@
   var DEST={
     wa:function(){return wa(MSG.W5_contacto)},
     wa2:function(){return wa(MSG.W2_asesor)},
-    wa4:function(){return wa(mensajeCotizacion()+' W4')},
+    wa4:function(){return wa(mensajeCotizacion())},
     wa5:function(){return wa(MSG.W1_header)},
     ig:function(){return CFG.ig},
     fb:function(){return 'https://www.facebook.com/friassilva.podesta'},
@@ -1628,11 +1636,7 @@
   document.querySelectorAll('[data-c]').forEach(function(el){
     var f=DEST[el.dataset.c];if(f)linkOut(el,f());
   });
-  (function(){var h='https://wa.me/'+CFG.wa+'?text='+encodeURIComponent('Hola, quiero cotizar mi vehículo pero no lo encuentro en la lista de la web. W4');document.querySelectorAll('.noesta').forEach(function(e){e.setAttribute('href',h)});})();
-  function refrescarWa4(){
-    var el=document.querySelector('[data-c="wa4"]');
-    if(el)el.setAttribute('href',DEST.wa4());
-  }
+  (function(){var h='https://wa.me/'+CFG.wa+'?text='+encodeURIComponent('Hola, quiero cotizar mi vehículo pero no lo encuentro en la lista de la web.');document.querySelectorAll('.noesta').forEach(function(e){e.setAttribute('href',h)});})();
 
   /* ---- PANELES ---- */
   var panels=[];  /* las cuatro secciones quedan abiertas; el desplegable es por pregunta */
@@ -18863,9 +18867,9 @@
 
   var prov=$('prov'),cp=$('cp'),mar=$('mar'),mod=$('mod'),ver=$('ver'),anio=$('anio'),uso=$('uso'),nac=$('nac'),nom2=$('nom');
   var rail=$('rail'),resume=$('resume'),next=$('next'),back=$('back'),priv=$('priv'),nav2=$('nav2');
-  var step=1,TOT=5;var COB=[];var COB_MAX=3;
+  var step=1,TOT=4;var COB=[];var COB_MAX=3;var HIST=[];
 
-  ['Zona','Vehículo','Titular','Cobertura','Listo'].forEach(function(t,i){
+  ['Zona','Vehículo','Titular','Cobertura'].forEach(function(t,i){
     var d=document.createElement('div');d.className='rl';d.innerHTML='<i>'+(i+1)+'</i><span>'+t+'</span>';rail.appendChild(d);
   });
 
@@ -19086,15 +19090,13 @@
       d.querySelector('i').textContent=(i+1<step)?'✓':String(i+1);
     });
     var sm=document.getElementById('stepm');
-    if(sm){var nm=['Zona','Vehículo','Titular','Cobertura','Listo'][step-1]||'';
+    if(sm){var nm=['Zona','Vehículo','Titular','Cobertura'][step-1]||'';
       sm.textContent='Paso '+step+' de '+TOT+' · '+nm;}
-    back.hidden=step===1||step===TOT;
-    nav2.style.display=step===TOT?'none':'';
-    priv.style.display=step===TOT?'none':'';
-    next.textContent=step===4?'Enviar mi cotización':'Siguiente';
+    back.hidden=step===1;
+    next.textContent=step===TOT?'Enviar mi cotización':'Siguiente';
     var ch=$('cvhint');
     if(ch)ch.innerHTML=COB.length>=COB_MAX?'<b>Ya elegiste 3.</b> Sacá una para elegir otra.':'<b>Podés elegir hasta 3</b> para comparar precio y alcance en la misma consulta.';
-    next.disabled=!valid();chips();refrescarWa4();
+    next.disabled=!valid();chips();
   }
   function mark(id,on){var el=$(id);if(el)el.classList.toggle('done',!!on)}
 
@@ -19202,10 +19204,36 @@
     });
   })();
   document.querySelectorAll('#gnc button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#gnc button').forEach(function(o){o.setAttribute('aria-pressed',String(o===b))});paint()})});
+
+  /* ---- Historial de cotizaciones de esta sesión + reinicio del formulario ---- */
+  var chBox=$('cothist'),chList=$('chList');
+  function renderHist(){
+    if(!chBox||!chList)return;
+    chBox.hidden=HIST.length===0;
+    chList.innerHTML=HIST.map(function(h){
+      return '<div class="ch-item"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>'+
+        '<span><b>'+h.veh+'</b><span>'+h.cob.join(' + ')+'</span></span></div>';
+    }).join('');
+  }
+  function resetCotizador(){
+    prov.value='';cp.value='';mar.value='';mod.value='';mod.disabled=true;mod.placeholder='Seleccioná una marca primero';
+    ver.value='';anio.value='';uso.value='Particular';nac.value='';nom2.value='';
+    document.querySelectorAll('#gnc button').forEach(function(o){o.setAttribute('aria-pressed',o.textContent==='No'?'true':'false')});
+    sinVer=false;limpiarGuia();pintarVersion();
+    ['f-prov','f-cp','f-mar','f-mod','f-ver','f-anio','f-nac'].forEach(function(id){mark(id,false)});
+    $('cpErr').hidden=true;$('f-cp').classList.remove('bad');
+    COB=[];
+    document.querySelectorAll('#cvopts .cvopt').forEach(function(o){o.setAttribute('aria-checked','false');o.setAttribute('aria-disabled','false')});
+    step=1;paint();
+  }
   next.addEventListener('click',function(){
-    if(!valid()||step>=TOT)return;
-    if(step===4)window.open(DEST.wa4(),'_blank','noopener');
-    step++;paint();
+    if(!valid())return;
+    if(step<TOT){step++;paint();return}
+    var veh=[mar.value,mod.value].filter(Boolean).join(' ')+(versionTexto()?' '+versionTexto():'')+(anio.value?' · '+anio.value:'');
+    window.open(DEST.wa4(),'_blank','noopener');
+    HIST.push({veh:veh,cob:COB.slice()});
+    renderHist();
+    resetCotizador();
   });
   back.addEventListener('click',function(){if(step>1){step--;paint()}});
   paint();
