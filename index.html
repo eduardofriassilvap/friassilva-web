@@ -401,6 +401,7 @@
   .sh-top{display:flex;align-items:center;gap:12px;padding:20px 22px 16px;border-bottom:1px solid var(--line-2)}
   .sh-top .mn{font-size:1.1rem;font-weight:800;flex:1;min-width:0}
   .icb{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--body);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none;transition:all .18s;font-size:1rem;line-height:1}
+  .icb[hidden]{display:none}
   .icb:hover{background:var(--tint);color:var(--blue);border-color:#BFD3E6}
   .sh-body{padding:0;overflow-y:auto}
   .shero{position:relative;background:linear-gradient(140deg,var(--night),var(--deep) 55%,var(--blue));padding:24px 22px 22px;overflow:clip;color:#fff}
@@ -744,18 +745,23 @@
   .cvopt:hover{border-color:var(--lift)}
   .cvopt:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
   .cvopt[aria-checked="true"]{border-color:var(--blue);background:#FAFCFE;box-shadow:0 0 0 3px var(--glow)}
-  .cvdot{width:19px;height:19px;margin-top:2px;border:2px solid var(--line);border-radius:50%;
+  .cvopt[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
+  .cvdot{width:19px;height:19px;margin-top:2px;border:2px solid var(--line);border-radius:7px;
     display:grid;place-items:center;transition:border-color .16s}
-  .cvdot i{width:9px;height:9px;border-radius:50%;background:var(--blue);display:block;
+  .cvdot i{width:11px;height:11px;border-radius:3px;background:var(--blue);display:block;
     transform:scale(0);transition:transform .16s ease}
-  .cvopt[aria-checked="true"] .cvdot{border-color:var(--blue)}
-  .cvopt[aria-checked="true"] .cvdot i{transform:scale(1)}
+  .cvopt[aria-checked="true"] .cvdot{border-color:var(--blue);background:var(--blue)}
+  .cvopt[aria-checked="true"] .cvdot i{transform:scale(1);background:#fff}
   .cvtx b{display:block;font-family:Manrope,sans-serif;font-weight:700;font-size:15.5px;letter-spacing:-.01em}
   .cvtx span{display:block;color:var(--body);font-size:14px;margin-top:3px;line-height:1.45}
   .cvpill{font-family:Manrope,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;
     text-transform:uppercase;background:var(--tint);color:var(--deep);padding:4px 8px;
     border-radius:6px;white-space:nowrap;margin-top:2px}
   .cvns{border-style:dashed}
+  .cvinfo{margin-top:8px;display:inline-flex;align-items:center;gap:4px;background:none;border:0;padding:0;
+    font-family:Manrope,sans-serif;font-size:12.5px;font-weight:700;color:var(--blue);cursor:pointer}
+  .cvinfo:hover{text-decoration:underline}
+  .cvlimit{margin-top:10px;font-size:12.5px;color:var(--faint)}
   @media(max-width:560px){.cvopt{grid-template-columns:20px 1fr}.cvpill{grid-column:2;justify-self:start}}
 </style>
 
@@ -1024,14 +1030,23 @@
             </table></div>
             <p class="hint">Es una guía general. La cobertura efectiva depende de la compañía y del plan, y te la confirmamos por escrito antes de contratar.</p>
           </details>
-          <div class="cvopts" id="cvopts" role="radiogroup" aria-label="Cobertura"><button type="button" class="cvopt" role="radio" aria-checked="false" data-cv="Responsabilidad civil"><span class="cvdot"><i></i></span><span class="cvtx"><b>Responsabilidad civil</b><span>Cobertura mínima obligatoria para circular: cubre los daños ocasionados a terceros, no los del vehículo propio.</span></span><span class="cvpill">La más económica</span></button><button type="button" class="cvopt" role="radio" aria-checked="false" data-cv="Todo Total con cristales"><span class="cvdot"><i></i></span><span class="cvtx"><b>Todo Total con cristales</b><span>Suma incendio y robo total, daños totales por accidente y rotura de cristales.</span></span><span class="cvpill">Intermedia</span></button><button type="button" class="cvopt" role="radio" aria-checked="false" data-cv="Terceros completo con cristales y granizo"><span class="cvdot"><i></i></span><span class="cvtx"><b>Terceros completo con cristales y granizo</b><span>Todo lo anterior y además incendio y robo parcial, y daño por granizo.</span></span><span class="cvpill">La más pedida</span></button><button type="button" class="cvopt" role="radio" aria-checked="false" data-cv="Todo riesgo · franquicia 1%"><span class="cvdot"><i></i></span><span class="cvtx"><b>Todo riesgo · franquicia 1%</b><span>Cubre también los daños parciales del vehículo. Es la franquicia más baja, por lo tanto la opción más cara.</span></span></button><button type="button" class="cvopt" role="radio" aria-checked="false" data-cv="Todo riesgo · franquicia 2%"><span class="cvdot"><i></i></span><span class="cvtx"><b>Todo riesgo · franquicia 2%</b><span>El punto medio: menor costo de póliza y mayor participación en cada siniestro.</span></span></button><button type="button" class="cvopt" role="radio" aria-checked="false" data-cv="Todo riesgo · franquicia 4%"><span class="cvdot"><i></i></span><span class="cvtx"><b>Todo riesgo · franquicia 4%</b><span>La más económica de las tres de todo riesgo, con la mayor participación a cargo del asegurado en cada reparación.</span></span></button><button type="button" class="cvopt cvns" role="radio" aria-checked="false" data-cv="No sabe / a definir"><span class="cvdot"><i></i></span><span class="cvtx"><b>No sé cuál me conviene</b><span>Te enviamos las opciones con precio y las analizamos por WhatsApp.</span></span></button></div>
+          <p class="hint" id="cvhint"><b>Podés elegir hasta 3</b> para comparar precio y alcance en la misma consulta.</p>
+          <div class="cvopts" id="cvopts" role="group" aria-label="Cobertura (elegí hasta 3)">
+            <div class="cvopt" role="checkbox" tabindex="0" aria-checked="false" data-cv="Responsabilidad civil"><span class="cvdot"><i></i></span><span class="cvtx"><b>Responsabilidad civil</b><span>Cobertura mínima obligatoria para circular: cubre los daños ocasionados a terceros, no los del vehículo propio.</span><button type="button" class="cvinfo" data-info="Responsabilidad civil">Más info →</button></span><span class="cvpill">La más económica</span></div>
+            <div class="cvopt" role="checkbox" tabindex="0" aria-checked="false" data-cv="Todo Total con cristales"><span class="cvdot"><i></i></span><span class="cvtx"><b>Todo Total con cristales</b><span>Suma incendio y robo total, daños totales por accidente y rotura de cristales.</span><button type="button" class="cvinfo" data-info="Todo Total con cristales">Más info →</button></span><span class="cvpill">Intermedia</span></div>
+            <div class="cvopt" role="checkbox" tabindex="0" aria-checked="false" data-cv="Terceros completo con cristales y granizo"><span class="cvdot"><i></i></span><span class="cvtx"><b>Terceros completo con cristales y granizo</b><span>Todo lo anterior y además incendio y robo parcial, y daño por granizo.</span><button type="button" class="cvinfo" data-info="Terceros completo con cristales y granizo">Más info →</button></span><span class="cvpill">La más pedida</span></div>
+            <div class="cvopt" role="checkbox" tabindex="0" aria-checked="false" data-cv="Todo riesgo · franquicia 1%"><span class="cvdot"><i></i></span><span class="cvtx"><b>Todo riesgo · franquicia 1%</b><span>Cubre también los daños parciales del vehículo. Es la franquicia más baja, por lo tanto la opción más cara.</span><button type="button" class="cvinfo" data-info="Todo riesgo · franquicia 1%">Más info →</button></span></div>
+            <div class="cvopt" role="checkbox" tabindex="0" aria-checked="false" data-cv="Todo riesgo · franquicia 2%"><span class="cvdot"><i></i></span><span class="cvtx"><b>Todo riesgo · franquicia 2%</b><span>El punto medio: menor costo de póliza y mayor participación en cada siniestro.</span><button type="button" class="cvinfo" data-info="Todo riesgo · franquicia 2%">Más info →</button></span></div>
+            <div class="cvopt" role="checkbox" tabindex="0" aria-checked="false" data-cv="Todo riesgo · franquicia 4%"><span class="cvdot"><i></i></span><span class="cvtx"><b>Todo riesgo · franquicia 4%</b><span>La más económica de las tres de todo riesgo, con la mayor participación a cargo del asegurado en cada reparación.</span><button type="button" class="cvinfo" data-info="Todo riesgo · franquicia 4%">Más info →</button></span></div>
+            <div class="cvopt cvns" role="checkbox" tabindex="0" aria-checked="false" data-cv="No sabe / a definir"><span class="cvdot"><i></i></span><span class="cvtx"><b>No sé cuál me conviene</b><span>Te mandamos un par de opciones con precio y las vemos juntos por WhatsApp.</span></span></div>
+          </div>
           <p class="hint"><b>¿Qué es la franquicia?</b> Es la parte de la reparación que queda a cargo del asegurado cuando se utiliza la cobertura por un daño parcial. Cuanto más baja, más cara la póliza; cuanto más alta, más barata.</p>
         </div>
       </div>
       <div class="pane" data-p="5">
-        <div class="fin"><div class="ava">EF</div><p class="mn">Último paso: enviá tus datos.</p>
-          <p>Al presionar el botón se abre WhatsApp con todos los datos cargados. Te enviamos la cotización en menos de 15 minutos, de 9 a 18.</p>
-          <a class="btn btn-1" data-c="wa4" style="justify-content:center;width:100%">Enviar por WhatsApp</a></div>
+        <div class="fin"><div class="ava">EF</div><p class="mn">¡Listo! Ya se abrió WhatsApp con tu cotización.</p>
+          <p>Te respondemos en menos de 15 minutos, de 9 a 18. Si no se abrió automáticamente, tocá el botón.</p>
+          <a class="btn btn-1" data-c="wa4" style="justify-content:center;width:100%">Abrir WhatsApp</a></div>
       </div>
       <div class="nav2" id="nav2"><button class="lnk" id="back" hidden>← Volver</button><span></span><button class="btn btn-1" id="next" disabled>Siguiente</button></div>
       <p class="priv" id="priv">Los datos se usan solo para calcular tu cobertura.</p>
@@ -1344,7 +1359,6 @@
     W1_header    : 'Hola, quiero hacer una consulta. W1',
     W2_asesor    : 'Hola, quiero que me asesoren. W2',
     W3_ramo      : 'Hola, quiero asesorarme sobre {ramo}. W3',
-    W4_cotizador : 'Hola, acabo de cotizar mi auto en la web.',
     W5_contacto  : 'Hola, quiero hacer una consulta. W5',
     mailAsunto   : 'Consulta desde la web',
     mailCuerpo   : 'Hola, quiero hacer una consulta sobre:'
@@ -1565,25 +1579,46 @@
 
 
   /* ---- ENLACES DE CONTACTO ---- */
-  function resumenAuto(){
-    var t=[];
+  /* Mensaje de cotización: prolijo, con secciones y en varias líneas para que
+     se lea fácil en WhatsApp. Se arma recién al momento de enviar, con los
+     valores cargados en el formulario del cotizador. */
+  function mensajeCotizacion(){
+    var L=[];
+    L.push('¡Hola! 👋 Quiero cotizar mi seguro de auto. Estos son mis datos:');
     try{
-      if(nom2&&nom2.value.trim())t.push(nom2.value.trim());
-      if(mar&&mar.value&&mod.value)t.push(mar.value+' '+mod.value+(versionTexto()?' '+versionTexto():''));
-      if(anio&&anio.value)t.push(anio.value);
-      if(uso&&uso.value)t.push('uso '+uso.value.toLowerCase());
-      try{t.push('GNC: '+gncVal())}catch(e){}
-      if(nac&&nac.value)t.push('nac. '+nac.value.split('-').reverse().join('/'));
-      if(prov&&prov.value)t.push(prov.value);
-      if(cp&&/^\d{4}$/.test(cp.value.trim()))t.push('CP '+cp.value.trim());
+      L.push('');
+      L.push('📍 *Zona*');
+      if(prov&&prov.value)L.push('Provincia: '+prov.value);
+      if(cp&&cpOk())L.push('Código postal: '+cp.value.trim());
+
+      L.push('');
+      L.push('🚗 *Vehículo*');
+      if(mar&&mar.value)L.push('Marca: '+mar.value);
+      if(mod&&mod.value)L.push('Modelo: '+mod.value);
+      if(versionTexto())L.push('Versión: '+versionTexto());
+      if(anio&&anio.value)L.push('Año: '+anio.value);
+      if(uso&&uso.value)L.push('Uso: '+uso.value);
+      L.push('Equipo de GNC: '+gncVal());
+
+      L.push('');
+      L.push('👤 *Titular*');
+      if(nom2&&nom2.value.trim())L.push('Nombre: '+nom2.value.trim());
+      if(nac&&nac.value)L.push('Fecha de nacimiento: '+nac.value.split('-').reverse().join('/'));
+
+      if(COB&&COB.length){
+        L.push('');
+        L.push('🛡️ *'+(COB.length>1?'Coberturas a comparar':'Cobertura')+'*');
+        COB.forEach(function(c,i){L.push((i+1)+'. '+c)});
+      }
     }catch(e){}
-    try{if(COB)t.push('cobertura '+COB)}catch(e){}
-    return t.length?' Datos: '+t.join(', ')+'.':'';
+    L.push('');
+    L.push('Quedo atento/a a la cotización, ¡gracias!');
+    return L.join('\n');
   }
   var DEST={
     wa:function(){return wa(MSG.W5_contacto)},
     wa2:function(){return wa(MSG.W2_asesor)},
-    wa4:function(){return wa(MSG.W4_cotizador+resumenAuto()+' W4')},
+    wa4:function(){return wa(mensajeCotizacion()+' W4')},
     wa5:function(){return wa(MSG.W1_header)},
     ig:function(){return CFG.ig},
     fb:function(){return 'https://www.facebook.com/friassilva.podesta'},
@@ -19204,7 +19239,7 @@
 
   var prov=$('prov'),cp=$('cp'),mar=$('mar'),mod=$('mod'),ver=$('ver'),anio=$('anio'),uso=$('uso'),nac=$('nac'),nom2=$('nom');
   var rail=$('rail'),resume=$('resume'),next=$('next'),back=$('back'),priv=$('priv'),nav2=$('nav2');
-  var step=1,TOT=5;var COB="";
+  var step=1,TOT=5;var COB=[];var COB_MAX=3;
 
   ['Zona','Vehículo','Titular','Cobertura','Listo'].forEach(function(t,i){
     var d=document.createElement('div');d.className='rl';d.innerHTML='<i>'+(i+1)+'</i><span>'+t+'</span>';rail.appendChild(d);
@@ -19405,7 +19440,7 @@
     if(step===2)return !!(DATA[mar.value] && (DATA[mar.value]||[]).indexOf(mod.value)>-1)
                         && !!anio.value && versionOk();
     if(step===3)return !!(nac.value&&nom2.value.trim());
-    if(step===4)return !!COB;
+    if(step===4)return COB.length>0;
     return true;
   }
   function chips(){
@@ -19417,7 +19452,7 @@
     if(anio.value)c.push(anio.value);
     if(step>=2&&anio.value)c.push(uso.value,'GNC: '+gncVal());
     if(nom2.value.trim())c.push(nom2.value.trim());
-    if(COB)c.push(COB);
+    if(COB.length)c.push(COB.join(' + '));
     resume.innerHTML=c.map(function(t){return '<span>'+t+'</span>'}).join('');
   }
   function paint(){
@@ -19432,7 +19467,9 @@
     back.hidden=step===1||step===TOT;
     nav2.style.display=step===TOT?'none':'';
     priv.style.display=step===TOT?'none':'';
-    next.textContent=step===4?'Ver mi cotización':'Siguiente';
+    next.textContent=step===4?'Enviar mi cotización':'Siguiente';
+    var ch=$('cvhint');
+    if(ch)ch.innerHTML=COB.length>=COB_MAX?'<b>Ya elegiste 3.</b> Sacá una para elegir otra.':'<b>Podés elegir hasta 3</b> para comparar precio y alcance en la misma consulta.';
     next.disabled=!valid();chips();refrescarWa4();
   }
   function mark(id,on){var el=$(id);if(el)el.classList.toggle('done',!!on)}
@@ -19453,13 +19490,99 @@
   uso.addEventListener('change',paint);
   nac.addEventListener('change',function(){mark('f-nac',nac.value);paint()});
   nom2.addEventListener('input',paint);
+  /* ---- Cobertura: selección múltiple (hasta 3) + "Más info" con el detalle de cada plan ---- */
+  var COB_INFO={
+    "Responsabilidad civil":{
+      resumen:"Es el seguro obligatorio para poder circular. Cubre lo que le puede pasar a un tercero, no a tu auto.",
+      incluye:["Daños materiales y corporales que le ocasionás a otras personas, otros vehículos o cosas.",
+        "Suele incluir cobertura automática en los países limítrofes, sin aviso previo."],
+      noIncluye:["No cubre robo, incendio ni granizo de tu propio vehículo.","No cubre cristales ni ningún daño propio, ni siquiera si el accidente no fue tu culpa."]},
+    "Todo Total con cristales":{
+      resumen:"Suma a la Responsabilidad Civil la protección ante los siniestros grandes: que el auto quede destruido, te lo roben, se incendie o se rompa un cristal.",
+      incluye:["Responsabilidad Civil hacia terceros.","Incendio total del vehículo.","Robo o hurto TOTAL del vehículo.",
+        "Destrucción total por accidente.","Rotura de cristales (parabrisas, luneta y laterales), con un límite según el plan."],
+      noIncluye:["No cubre robo o daño PARCIAL (por ejemplo, que te roben solo las ruedas, un espejo o la radio).",
+        "No cubre abolladuras ni golpes si el auto no queda destruido totalmente."]},
+    "Terceros completo con cristales y granizo":{
+      resumen:"Es la cobertura más elegida: a la anterior le suma el robo e incendio PARCIAL y el daño por granizo, con cristales sin tope.",
+      incluye:["Responsabilidad Civil hacia terceros.","Incendio y robo/hurto, total y parcial (ruedas, espejos, radio, etc.).",
+        "Destrucción total por accidente.","Cristales, generalmente sin límite hasta la suma asegurada del vehículo.","Daño parcial por granizo."],
+      noIncluye:["No cubre abolladuras ni daños de choque en tu propio auto si el siniestro no es total. Para eso está la cobertura Todo Riesgo."]},
+    "Todo riesgo · franquicia 1%":{
+      resumen:"La cobertura más completa: además de todo lo anterior, cubre los daños parciales de tu propio auto en un choque (abolladuras, golpes), aunque sea tu culpa.",
+      incluye:["Todo lo de Terceros Completo: RC, incendio, robo total y parcial, cristales y granizo.",
+        "Daños parciales por choque en tu propio vehículo, con una franquicia del 1% de la suma asegurada a tu cargo en cada siniestro (siempre hay un mínimo fijo).",
+        "Suele incluir asistencia al vehículo en viaje sin límite de eventos."],
+      noIncluye:["La franquicia (1%) corre por tu cuenta en cada reparación. Es la más baja de las tres, por eso también es la póliza más cara."]},
+    "Todo riesgo · franquicia 2%":{
+      resumen:"Igual alcance que el Todo Riesgo con franquicia 1%, con un punto medio entre lo que pagás de póliza y lo que ponés vos en cada siniestro.",
+      incluye:["Todo lo de Terceros Completo: RC, incendio, robo total y parcial, cristales y granizo.",
+        "Daños parciales por choque en tu propio vehículo, con una franquicia del 2% de la suma asegurada a tu cargo en cada siniestro (siempre hay un mínimo fijo).",
+        "Suele incluir asistencia al vehículo en viaje sin límite de eventos."],
+      noIncluye:["La franquicia (2%) corre por tu cuenta en cada reparación: menor costo de póliza que la de 1%, mayor participación en cada siniestro."]},
+    "Todo riesgo · franquicia 4%":{
+      resumen:"El mismo alcance que las otras dos, pero con la franquicia más alta: la póliza más económica de las tres, con mayor participación tuya en cada reparación.",
+      incluye:["Todo lo de Terceros Completo: RC, incendio, robo total y parcial, cristales y granizo.",
+        "Daños parciales por choque en tu propio vehículo, con una franquicia del 4% de la suma asegurada a tu cargo en cada siniestro (siempre hay un mínimo fijo).",
+        "Suele incluir asistencia al vehículo en viaje sin límite de eventos."],
+      noIncluye:["La franquicia (4%) corre por tu cuenta en cada reparación. Es la más alta de las tres, por eso también es la póliza más económica."]}
+  };
+  function abrirInfoCobertura(key){
+    var info=COB_INFO[key];if(!info)return;
+    lastF=document.activeElement;curG=null;
+    ovBack.hidden=true;ovT.textContent=key;
+    var lbl='font-family:Manrope,sans-serif;font-weight:800;font-size:.78rem;letter-spacing:.02em;color:var(--deep);margin:18px 0 8px';
+    ovB.innerHTML='<div class="spad"><div class="det"><p class="lead2">'+info.resumen+'</p>'+
+      '<p style="'+lbl+'">Incluye</p><ul>'+
+      info.incluye.map(function(x){return '<li><b>—</b><span>'+x+'</span></li>'}).join('')+'</ul>'+
+      (info.noIncluye?'<p style="'+lbl+'">No incluye</p><ul>'+
+      info.noIncluye.map(function(x){return '<li><b>—</b><span>'+x+'</span></li>'}).join('')+'</ul>':'')+
+      '<div class="foot"><a class="btn btn-1" data-cerrar-info>Volver al cotizador</a></div>'+
+      '<p class="warn">Guía general de referencia. El detalle exacto, los montos y los límites de cada cobertura dependen de la compañía y el plan; te los confirmamos por escrito antes de contratar.</p></div></div>';
+    ovB.querySelectorAll('[data-cerrar-info]').forEach(function(b){b.addEventListener('click',cerrarInfoCobertura)});
+    ov.classList.add('on');document.body.style.overflow='hidden';
+    setTimeout(function(){ovX.focus()},60);
+  }
+  function cerrarInfoCobertura(){ov.classList.remove('on');document.body.style.overflow='';if(lastF)lastF.focus()}
   (function(){var box=document.getElementById('cvopts');if(!box)return;
-    box.addEventListener('click',function(e){var b=e.target.closest('.cvopt');if(!b)return;
-      COB=b.getAttribute('data-cv');
-      box.querySelectorAll('.cvopt').forEach(function(o){o.setAttribute('aria-checked',String(o===b))});
-      paint();});})();
+    function toggle(b){
+      var v=b.getAttribute('data-cv'), on=b.getAttribute('aria-checked')==='true';
+      var esNs=v==='No sabe / a definir';
+      if(on){
+        COB=COB.filter(function(x){return x!==v});
+      }else{
+        if(esNs){COB=[v]}
+        else{
+          COB=COB.filter(function(x){return x!=='No sabe / a definir'});
+          if(COB.length>=COB_MAX)return;
+          COB.push(v);
+        }
+      }
+      box.querySelectorAll('.cvopt').forEach(function(o){
+        var checked=COB.indexOf(o.getAttribute('data-cv'))>-1;
+        o.setAttribute('aria-checked',String(checked));
+        o.setAttribute('aria-disabled',String(!checked&&COB.length>=COB_MAX&&o.getAttribute('data-cv')!=='No sabe / a definir'));
+      });
+      paint();
+    }
+    box.addEventListener('click',function(e){
+      var info=e.target.closest('.cvinfo');
+      if(info){e.stopPropagation();abrirInfoCobertura(info.dataset.info);return}
+      var b=e.target.closest('.cvopt');if(!b)return;
+      toggle(b);
+    });
+    box.addEventListener('keydown',function(e){
+      if(e.key!=='Enter'&&e.key!==' ')return;
+      var b=e.target.closest('.cvopt');if(!b)return;
+      e.preventDefault();toggle(b);
+    });
+  })();
   document.querySelectorAll('#gnc button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#gnc button').forEach(function(o){o.setAttribute('aria-pressed',String(o===b))});paint()})});
-  next.addEventListener('click',function(){if(valid()&&step<TOT){step++;paint()}});
+  next.addEventListener('click',function(){
+    if(!valid()||step>=TOT)return;
+    if(step===4)window.open(DEST.wa4(),'_blank','noopener');
+    step++;paint();
+  });
   back.addEventListener('click',function(){if(step>1){step--;paint()}});
   paint();
 })();
