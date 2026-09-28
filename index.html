@@ -4,6 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
+<!-- ===================================================================
+     Google Analytics (GA4). PENDIENTE: reemplazar G-XXXXXXXXXX por tu
+     ID de medición real en las DOS líneas de abajo (tiene que ser el
+     mismo en las dos). Instrucciones en INSTRUCCIONES-ANALYTICS.md.
+     =================================================================== -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
 <title>Broker de seguros en Tucumán · Auto, hogar, comercio y ART | Frias Silva - Podesta</title>
 <meta name="description" content="Broker de seguros en Yerba Buena, Tucumán. Auto, moto, hogar, vida, comercio, ART, agro, industria, caución y planes de ahorro. Cotizá tu auto en un minuto y recibí asesoramiento personalizado. Matrícula SSN N° 75528.">
 <meta name="theme-color" content="#0E2236">
@@ -977,7 +990,7 @@
           </div>
         </div>
         <p class="hint">Corresponde al domicilio donde permanece el vehículo la mayor parte del tiempo. La compañía calcula el riesgo por zona, no por el nombre de la localidad.</p>
-        <p class="err2" id="cpErr" hidden>El código postal tiene 4 números. Por ejemplo: 4107.</p>
+        <p class="err2" id="cpErr" hidden>Ingresá un código postal argentino válido (4 números, entre 1000 y 9420). Por ejemplo: 4107.</p>
       </div>
       <div class="pane" data-p="2">
         <div class="two">
@@ -1019,7 +1032,8 @@
         <div class="fld" id="f-nac"><label for="nac">Fecha de nacimiento del titular</label>
           <input class="ctl" id="nac" type="date" min="1930-01-01" max="2008-12-31">
           <p class="hint">La compañía calcula la prima con la fecha exacta, no con la edad.</p></div>
-        <div class="fld"><label for="nom">Nombre y apellido</label><input class="ctl" id="nom" type="text" placeholder="Como figura en el DNI"></div>
+        <div class="fld" id="f-nom"><label for="nom">Nombre y apellido</label><input class="ctl" id="nom" type="text" placeholder="Como figura en el DNI" maxlength="60">
+          <p class="err2" id="nomErr" hidden>Ingresá tu nombre y apellido reales, solo con letras.</p></div>
       </div>
       <div class="pane" data-p="4">
         <div class="fld"><label>¿Qué cobertura estás buscando?</label>
@@ -1280,7 +1294,7 @@
         <p class="gttl">¿Te atendimos bien? Contanos en Google.</p>
         <p class="gsub">Te toma menos de un minuto y nos ayuda a que más gente en Tucumán nos encuentre. <span class="demo-note">(4.9★ de ejemplo — poner el puntaje real)</span></p>
       </div>
-      <a class="btn btn-1 gbtn" href="#" target="_blank" rel="noopener">Dejar mi reseña en Google →</a>
+      <a class="btn btn-1 gbtn" href="https://maps.app.goo.gl/RXibnEvZepvBi4wE9" target="_blank" rel="noopener">Dejar mi reseña en Google →</a>
     </div>
   </div>
 </section>
@@ -1348,9 +1362,9 @@
    =================================================================== */
 // URL que te da Google Apps Script al implementar apps-script.gs como
 // aplicación web (paso 6 de INSTRUCCIONES-PLANILLA.md).
-var URL_PLANILLA = 'REEMPLAZAR_CON_LA_URL_DE_APPS_SCRIPT';
+var URL_PLANILLA = 'https://script.google.com/macros/s/AKfycbyufbCB5q2fTQtZKaD0cHjoL41enLW5PBVrtfq_HGN8jED_p4AzlAH17jGjjvB2U5df/exec';
 // El mismo token secreto que elegiste y pegaste dentro de apps-script.gs.
-var TOKEN_PLANILLA = 'REEMPLAZAR_CON_TU_TOKEN';
+var TOKEN_PLANILLA = 'fsp2026secreto';
 
 (function(){
   var $=function(i){return document.getElementById(i)};
@@ -18959,12 +18973,49 @@ var TOKEN_PLANILLA = 'REEMPLAZAR_CON_TU_TOKEN';
     var eq={'Básico':'equipamiento básico','Intermedio':'equipamiento intermedio','Completo':'equipamiento completo'}[GUIA.equip]||GUIA.equip;
     return GUIA.comb.toLowerCase()+', '+GUIA.caja.toLowerCase()+', '+eq;
   }
-  function cpOk(){return /^\d{4}$/.test(cp.value.trim())}
+  /* Los códigos postales "clásicos" de 4 números en Argentina van del
+     1000 (CABA) al 9420 (Ushuaia). No es una verificación oficial contra
+     el padrón de Correo Argentino (esto es un sitio estático, sin
+     servidor propio, y no hay una API pública gratuita para eso), pero
+     descarta cualquier número imposible (0000, 9999, etc.). */
+  function cpOk(){
+    if(!/^\d{4}$/.test(cp.value.trim()))return false;
+    var n=parseInt(cp.value.trim(),10);
+    return n>=1000&&n<=9420;
+  }
+  /* Lista de palabras que no queremos en el campo de nombre: insultos y
+     groserías comunes en español rioplatense, más "relleno" típico de
+     alguien que no quiere poner su nombre real. Se compara sin acentos
+     y en minúsculas, palabra por palabra, para no bloquear nombres
+     reales que solo se parecen de lejos. */
+  var NOM_PROHIBIDAS=['boludo','boluda','pelotudo','pelotuda','forro','forra',
+    'gil','gila','pajero','pajera','choto','chota','trolo','trola','trucho',
+    'trucha','puto','puta','putos','putas','maricon','marica','ortiba',
+    'cornudo','cornuda','careta','garca','garcas','chanta','guacho','guacha',
+    'negro de mierda','sorete','mierda','forro de mierda','ppll','asdf',
+    'qwerty','test','prueba','asd','nombre apellido','no se','no tengo',
+    'ninguno','ninguna','n/a','x x','anonimo','anonima'];
+  function quitarAcentos(s){return s.normalize('NFD').replace(/[̀-ͯ]/g,'')}
+  function nomOk(){
+    var v=nom2.value.trim();
+    if(v.length<4)return false;
+    /* Solo letras (con acentos y ñ), espacios, guiones y apóstrofos;
+       nada de números ni símbolos raros. */
+    if(!/^[A-Za-zÀ-ÿÑñ][A-Za-zÀ-ÿÑñ'\-\s]*[A-Za-zÀ-ÿÑñ]$/.test(v))return false;
+    /* Pedimos nombre Y apellido: al menos dos palabras de 2+ letras. */
+    var palabras=v.split(/\s+/).filter(function(p){return p.length>=2});
+    if(palabras.length<2)return false;
+    var plano=quitarAcentos(v.toLowerCase());
+    for(var i=0;i<NOM_PROHIBIDAS.length;i++){
+      if(plano.indexOf(NOM_PROHIBIDAS[i])>-1)return false;
+    }
+    return true;
+  }
   function valid(){
     if(step===1)return !!prov.value && cpOk();
     if(step===2)return !!(DATA[mar.value] && (DATA[mar.value]||[]).indexOf(mod.value)>-1)
                         && !!anio.value && versionOk();
-    if(step===3)return !!(nac.value&&nom2.value.trim());
+    if(step===3)return !!(nac.value&&nomOk());
     if(step===4)return COB.length>0;
     return true;
   }
@@ -19018,7 +19069,12 @@ var TOKEN_PLANILLA = 'REEMPLAZAR_CON_TU_TOKEN';
   });
   uso.addEventListener('change',paint);
   nac.addEventListener('change',function(){mark('f-nac',nac.value);paint()});
-  nom2.addEventListener('input',paint);
+  nom2.addEventListener('input',function(){
+    var malo=nom2.value.trim().length>0&&!nomOk();
+    $('nomErr').hidden=!malo;
+    $('f-nom').classList.toggle('bad',malo);
+    mark('f-nom',nomOk());paint();
+  });
   /* ---- Cobertura: selección múltiple (hasta 3) + "Más info" con el detalle de cada plan ---- */
   var COB_INFO={
     "Responsabilidad civil":{
@@ -19163,6 +19219,22 @@ var TOKEN_PLANILLA = 'REEMPLAZAR_CON_TU_TOKEN';
       vehiculo:[mar.value,mod.value].filter(Boolean).join(' '),
       cobertura:cobTexto
     });
+    /* Registro en Google Analytics: solo datos del vehículo y la
+       cobertura, nunca nombre ni fecha de nacimiento (Google no permite
+       mandar datos personales a Analytics). Si Analytics no está
+       configurado todavía, esto no rompe nada: gtag() ya existe (la
+       define el snippet del <head>) y el evento simplemente no llega a
+       ningún lado. */
+    try{
+      if(typeof gtag==='function'){
+        gtag('event','cotizacion_enviada',{
+          marca:mar.value,
+          modelo:mod.value,
+          anio:anio.value,
+          cobertura:cobTexto
+        });
+      }
+    }catch(e){}
     window.open(DEST.wa4(codigo),'_blank','noopener');
     HIST.push({veh:veh,cob:COB.slice()});
     renderHist();
