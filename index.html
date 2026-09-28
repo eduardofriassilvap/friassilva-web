@@ -990,7 +990,7 @@
           </div>
         </div>
         <p class="hint">Corresponde al domicilio donde permanece el vehículo la mayor parte del tiempo. La compañía calcula el riesgo por zona, no por el nombre de la localidad.</p>
-        <p class="err2" id="cpErr" hidden>Ingresá un código postal argentino válido (4 números, entre 1000 y 9420). Por ejemplo: 4107.</p>
+        <p class="err2" id="cpErr" hidden>Ese código postal no corresponde a la provincia elegida. Revisalo (en Tucumán, por ejemplo, empiezan con 4107).</p>
       </div>
       <div class="pane" data-p="2">
         <div class="two">
@@ -18979,14 +18979,49 @@ var TOKEN_PLANILLA = 'fsp2026secreto';
     return GUIA.comb.toLowerCase()+', '+GUIA.caja.toLowerCase()+', '+eq;
   }
   /* Los códigos postales "clásicos" de 4 números en Argentina van del
-     1000 (CABA) al 9420 (Ushuaia). No es una verificación oficial contra
-     el padrón de Correo Argentino (esto es un sitio estático, sin
-     servidor propio, y no hay una API pública gratuita para eso), pero
-     descarta cualquier número imposible (0000, 9999, etc.). */
+     1000 (CABA) al 9420 (Ushuaia), agrupados por zona según el primer
+     número (así funcionaba el sistema antes de 1998, y el prefijo se
+     mantiene igual en el CPA actual). No es una verificación oficial
+     contra el padrón completo de localidades de Correo Argentino (varias
+     provincias comparten la misma zona, y esto es un sitio estático sin
+     servidor propio ni acceso a esa base), pero alcanza para detectar el
+     error más común: elegir una provincia y poner, por accidente, un
+     código de otra. Buenos Aires tiene varias zonas propias porque el
+     territorio de la provincia rodea a la Capital y se extiende por
+     varias regiones postales distintas. */
+  var CP_ZONAS={
+    'Ciudad Autónoma de Buenos Aires':[1],
+    'Buenos Aires':[1,2,6,7,8],
+    'Catamarca':[4],
+    'Chaco':[3],
+    'Chubut':[9],
+    'Córdoba':[5],
+    'Corrientes':[3],
+    'Entre Ríos':[3],
+    'Formosa':[3],
+    'Jujuy':[4],
+    'La Pampa':[6,8],
+    'La Rioja':[5],
+    'Mendoza':[5],
+    'Misiones':[3],
+    'Neuquén':[8],
+    'Río Negro':[8],
+    'Salta':[4],
+    'San Juan':[5],
+    'San Luis':[5],
+    'Santa Cruz':[9],
+    'Santa Fe':[2,3],
+    'Santiago del Estero':[4],
+    'Tierra del Fuego':[9],
+    'Tucumán':[4]
+  };
   function cpOk(){
     if(!/^\d{4}$/.test(cp.value.trim()))return false;
     var n=parseInt(cp.value.trim(),10);
-    return n>=1000&&n<=9420;
+    if(n<1000||n>9420)return false;
+    var zonas=CP_ZONAS[prov.value];
+    if(!zonas)return true;
+    return zonas.indexOf(Math.floor(n/1000))>-1;
   }
   /* Lista de palabras que no queremos en el campo de nombre: insultos y
      groserías comunes en español rioplatense, más "relleno" típico de
@@ -19054,13 +19089,16 @@ var TOKEN_PLANILLA = 'fsp2026secreto';
   }
   function mark(id,on){var el=$(id);if(el)el.classList.toggle('done',!!on)}
 
-  prov.addEventListener('change',function(){mark('f-prov',prov.value);paint()});
-  cp.addEventListener('input',function(){
-    cp.value=cp.value.replace(/\D/g,'').slice(0,4);
-    var malo=cp.value.length>0&&!cpOk();
+  function refrescarCP(){
+    var malo=cp.value.trim().length>0&&!cpOk();
     $('cpErr').hidden=!malo;
     $('f-cp').classList.toggle('bad',malo);
-    mark('f-cp',cpOk());paint();
+    mark('f-cp',cpOk());
+  }
+  prov.addEventListener('change',function(){mark('f-prov',prov.value);refrescarCP();paint()});
+  cp.addEventListener('input',function(){
+    cp.value=cp.value.replace(/\D/g,'').slice(0,4);
+    refrescarCP();paint();
   });
   pintarVersion();
   anio.addEventListener('change',function(){
