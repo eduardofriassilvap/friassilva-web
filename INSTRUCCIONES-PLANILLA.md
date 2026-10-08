@@ -100,6 +100,20 @@ Ese mismo código (`FSP-4821`) también aparece al principio del mensaje
 de WhatsApp que te llega, así podés buscarlo en la planilla y saber
 exactamente de qué cotización se trata.
 
+## Avisos de siniestro (pestaña "Siniestros")
+
+El mismo script guarda también los avisos del formulario "Tuve un
+siniestro" en una pestaña aparte llamada **Siniestros**, dentro de la misma
+planilla. Si ya tenías el script instalado de antes, tenés que
+actualizarlo una vez:
+
+1. En la planilla, **Extensiones → Apps Script**, borrá el código y pegá el
+   contenido nuevo de `apps-script.gs`. Guardá.
+2. Elegí la función `ordenarPlanillaAhora` y apretá **▶ Ejecutar**
+   (aceptá los permisos si los pide). Esto crea la pestaña "Siniestros".
+3. **Implementar → Gestionar implementaciones**, lápiz de editar,
+   **Versión: Nueva versión**, **Implementar**. La URL no cambia.
+
 ## Si algo no funciona
 
 - **No aparece ninguna fila nueva:** revisá que la URL y el token en

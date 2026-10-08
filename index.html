@@ -1754,6 +1754,23 @@ var TOKEN_PLANILLA = 'fsp2026secreto';
     f.addEventListener('input',armar);
     f.addEventListener('change',armar);
     armar();
+    /* Al tocar el botón se guarda el aviso en la hoja "Siniestros" (en
+       segundo plano; el WhatsApp se abre igual aunque falle). */
+    $('sinGo').addEventListener('click',function(){
+      var nom=$('sNom').value.trim(), tel=$('sTel').value.trim(), pat=$('sPat').value.trim();
+      if(!nom||!tel||!pat)return;
+      var fec=$('sFec').value;
+      guardarEnPlanilla({
+        hoja:'siniestro',
+        token:TOKEN_PLANILLA,
+        nombre:nom,
+        telefono:tel,
+        patente:pat,
+        ocurrio:fec?fec.split('-').reverse().join('/'):'',
+        tipo:$('sTipo').value,
+        heridos:her
+      });
+    });
   })();
 
   /* ---- COTIZADOR ---- */
