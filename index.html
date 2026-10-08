@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
+<!-- Seguridad: limita desde dónde puede cargar cosas la página y a dónde puede mandar datos. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
 <!-- ===================================================================
      Google Analytics (GA4). PENDIENTE: reemplazar G-XXXXXXXXXX por tu
      ID de medición real en las DOS líneas de abajo (tiene que ser el
@@ -1223,11 +1227,11 @@
           </div>
           <form class="sform" id="sinF">
             <div class="two">
-              <div class="fld"><label for="sNom">Nombre y apellido</label><input class="ctl" id="sNom" type="text" required></div>
-              <div class="fld"><label for="sTel">Teléfono</label><input class="ctl" id="sTel" type="tel" placeholder="381 000 0000" required></div>
+              <div class="fld"><label for="sNom">Nombre y apellido</label><input class="ctl" id="sNom" type="text" maxlength="60" autocomplete="name" required></div>
+              <div class="fld"><label for="sTel">Teléfono</label><input class="ctl" id="sTel" type="tel" placeholder="381 000 0000" maxlength="20" required></div>
             </div>
             <div class="two">
-              <div class="fld"><label for="sPat">Patente o N° de póliza</label><input class="ctl" id="sPat" type="text" placeholder="AB 123 CD" required></div>
+              <div class="fld"><label for="sPat">Patente o N° de póliza</label><input class="ctl" id="sPat" type="text" placeholder="AB 123 CD" maxlength="20" required></div>
               <div class="fld"><label for="sFec">¿Cuándo ocurrió?</label><input class="ctl" id="sFec" type="date"></div>
             </div>
             <div class="fld"><label for="sTipo">¿Qué ocurrió?</label>
@@ -1758,7 +1762,7 @@ var TOKEN_PLANILLA = 'fsp2026secreto';
        segundo plano; el WhatsApp se abre igual aunque falle). */
     $('sinGo').addEventListener('click',function(){
       var nom=$('sNom').value.trim(), tel=$('sTel').value.trim(), pat=$('sPat').value.trim();
-      if(!nom||!tel||!pat)return;
+      if(!nombreOk(nom)||!/^[0-9+()\-\s]{6,20}$/.test(tel)||!/^[A-Za-z0-9\-\s]{2,20}$/.test(pat))return;
       var fec=$('sFec').value;
       guardarEnPlanilla({
         hoja:'siniestro',
@@ -19065,9 +19069,10 @@ var TOKEN_PLANILLA = 'fsp2026secreto';
     'qwerty','test','prueba','asd','nombre apellido','no se','no tengo',
     'ninguno','ninguna','n/a','x x','anonimo','anonima'];
   function quitarAcentos(s){return s.normalize('NFD').replace(/[̀-ͯ]/g,'')}
-  function nomOk(){
-    var v=nom2.value.trim();
-    if(v.length<4)return false;
+  function nomOk(){return nombreOk(nom2.value)}
+  function nombreOk(texto){
+    var v=String(texto).trim();
+    if(v.length<4||v.length>60)return false;
     /* Solo letras (con acentos y ñ), espacios, guiones y apóstrofos;
        nada de números ni símbolos raros. */
     if(!/^[A-Za-zÀ-ÿÑñ][A-Za-zÀ-ÿÑñ'\-\s]*[A-Za-zÀ-ÿÑñ]$/.test(v))return false;
@@ -19076,7 +19081,7 @@ var TOKEN_PLANILLA = 'fsp2026secreto';
     if(palabras.length<2)return false;
     var plano=quitarAcentos(v.toLowerCase());
     for(var i=0;i<NOM_PROHIBIDAS.length;i++){
-      if(plano.indexOf(NOM_PROHIBIDAS[i])>-1)return false;
+      if(new RegExp('(^|[^a-z])'+NOM_PROHIBIDAS[i]+'([^a-z]|$)').test(plano))return false;
     }
     return true;
   }
@@ -19088,6 +19093,7 @@ var TOKEN_PLANILLA = 'fsp2026secreto';
     if(step===4)return COB.length>0;
     return true;
   }
+  function esc(s){return String(s).replace(/[&<>"']/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]})}
   function chips(){
     var c=[];
     if(prov.value)c.push(prov.value);
@@ -19098,7 +19104,7 @@ var TOKEN_PLANILLA = 'fsp2026secreto';
     if(step>=2&&anio.value)c.push(uso.value,'GNC: '+gncVal());
     if(nom2.value.trim())c.push(nom2.value.trim());
     if(COB.length)c.push(COB.join(' + '));
-    resume.innerHTML=c.map(function(t){return '<span>'+t+'</span>'}).join('');
+    resume.innerHTML=c.map(function(t){return '<span>'+esc(t)+'</span>'}).join('');
   }
   function paint(){
     document.querySelectorAll('.pane').forEach(function(p){p.classList.toggle('on',+p.dataset.p===step)});
@@ -19243,7 +19249,7 @@ var TOKEN_PLANILLA = 'fsp2026secreto';
     chBox.hidden=HIST.length===0;
     chList.innerHTML=HIST.map(function(h){
       return '<div class="ch-item"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>'+
-        '<span><b>'+h.veh+'</b><span>'+h.cob.join(' + ')+'</span></span></div>';
+        '<span><b>'+esc(h.veh)+'</b><span>'+esc(h.cob.join(' + '))+'</span></span></div>';
     }).join('');
   }
   function resetCotizador(){

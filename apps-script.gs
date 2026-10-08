@@ -28,17 +28,36 @@ var NOMBRE_HOJA_SINIESTROS = 'Siniestros';
 var COLUMNAS_SINIESTROS = ['Fecha de aviso', 'Nombre y apellido', 'Teléfono', 'Patente o N° de póliza', 'Cuándo ocurrió', 'Qué ocurrió', '¿Hubo heridos?'];
 var ANCHOS_SINIESTROS = [130, 200, 130, 170, 120, 170, 120];
 
+// Cuántos avisos como máximo se aceptan por minuto, entre todos los
+// visitantes juntos. Frena a quien intente llenar la planilla de basura.
+var MAX_POR_MINUTO = 15;
+
+// Opciones válidas del formulario de siniestros.
+var TIPOS_SINIESTRO = ['Choque', 'Robo o intento de robo', 'Granizo', 'Rotura de cristales', 'Incendio', 'Otro'];
+
 /**
  * Se ejecuta automáticamente cada vez que la web manda datos.
  * "e" trae los datos que mandó la página, en formato JSON.
  */
 function doPost(e) {
+  var candado = LockService.getScriptLock();
   try {
-    var datos = JSON.parse(e.postData.contents);
+    var crudo = e.postData.contents;
+    if (crudo.length > 5000) {
+      return respuesta({ ok: false, error: 'Mensaje demasiado largo' });
+    }
+    var datos = JSON.parse(crudo);
 
     // Si el token no coincide con el nuestro, no guardamos nada.
     if (datos.token !== TOKEN) {
       return respuesta({ ok: false, error: 'Token inválido' });
+    }
+
+    // Un solo aviso a la vez, para que el control de abajo sea confiable.
+    candado.waitLock(10000);
+
+    if (!pasaControlDeEnvios(crudo)) {
+      return respuesta({ ok: false, error: 'Demasiados envíos' });
     }
 
     // Fecha y hora de ahora mismo, en formato día/mes/año hora:minuto,
@@ -47,41 +66,113 @@ function doPost(e) {
     var fecha = Utilities.formatDate(new Date(), 'America/Argentina/Buenos_Aires', 'dd/MM/yyyy HH:mm');
 
     if (datos.hoja === 'siniestro') {
-      // Aviso de siniestro. El teléfono se guarda como texto para que
-      // Sheets no le quite ceros ni lo cambie de formato.
-      var hojaSiniestros = obtenerHoja(NOMBRE_HOJA_SINIESTROS, COLUMNAS_SINIESTROS, ANCHOS_SINIESTROS);
-      hojaSiniestros.appendRow([
+      // Aviso de siniestro. Se revisa cada dato; si alguno no es válido,
+      // no se guarda nada.
+      if (!esNombre(datos.nombre) ||
+          !/^[0-9+()\-\s]{6,20}$/.test(String(datos.telefono)) ||
+          !/^[A-Za-z0-9\-\s]{2,20}$/.test(String(datos.patente)) ||
+          !(datos.ocurrio === '' || esFecha(datos.ocurrio)) ||
+          TIPOS_SINIESTRO.indexOf(datos.tipo) === -1 ||
+          (datos.heridos !== 'Sí' && datos.heridos !== 'No')) {
+        return respuesta({ ok: false, error: 'Datos inválidos' });
+      }
+      // El teléfono se guarda siempre como texto para que Sheets no le
+      // quite ceros ni lo cambie de formato.
+      obtenerHoja(NOMBRE_HOJA_SINIESTROS, COLUMNAS_SINIESTROS, ANCHOS_SINIESTROS).appendRow([
         fecha,
-        datos.nombre || '',
-        "'" + (datos.telefono || ''),
-        datos.patente || '',
-        datos.ocurrio || '',
-        datos.tipo || '',
-        datos.heridos || ''
+        limpiar(datos.nombre, 60),
+        "'" + limpiar(datos.telefono, 20),
+        limpiar(datos.patente, 20),
+        limpiar(datos.ocurrio, 10),
+        limpiar(datos.tipo, 40),
+        limpiar(datos.heridos, 3)
       ]);
       return respuesta({ ok: true });
     }
 
     // Cotización de auto. La columna "Teléfono" se deja vacía a propósito:
     // la completan ustedes a mano después de hablar con el cliente.
-    var hoja = obtenerHoja(NOMBRE_HOJA, COLUMNAS, ANCHOS);
-    hoja.appendRow([
+    if (!/^FSP-\d{4}$/.test(String(datos.codigo)) ||
+        !esNombre(datos.nombre) ||
+        !(datos.nacimiento === '' || esFecha(datos.nacimiento)) ||
+        String(datos.vehiculo).length < 2 || String(datos.vehiculo).length > 80 ||
+        String(datos.cobertura).length < 2 || String(datos.cobertura).length > 220) {
+      return respuesta({ ok: false, error: 'Datos inválidos' });
+    }
+    obtenerHoja(NOMBRE_HOJA, COLUMNAS, ANCHOS).appendRow([
       fecha,
-      datos.codigo || '',
-      datos.nombre || '',
-      datos.nacimiento || '',
+      limpiar(datos.codigo, 8),
+      limpiar(datos.nombre, 60),
+      limpiar(datos.nacimiento, 10),
       '',
-      datos.vehiculo || '',
-      datos.cobertura || ''
+      limpiar(datos.vehiculo, 80),
+      limpiar(datos.cobertura, 220)
     ]);
 
     return respuesta({ ok: true });
   } catch (error) {
-    // Si algo sale mal (datos mal formados, etc.), devolvemos el motivo
-    // en vez de romper todo. La web no lee esta respuesta, pero sirve
-    // para probar el script a mano mientras lo instalás.
-    return respuesta({ ok: false, error: String(error) });
+    // Si algo sale mal (datos mal formados, etc.), devolvemos un aviso
+    // genérico en vez de romper todo. La web no lee esta respuesta.
+    return respuesta({ ok: false, error: 'Error' });
+  } finally {
+    try { candado.releaseLock(); } catch (x) {}
   }
+}
+
+/**
+ * Limpia un texto antes de escribirlo en la planilla: le saca caracteres
+ * raros, lo recorta al largo máximo y, si empieza con = + - o @ (que
+ * Sheets tomaría como una fórmula), le antepone un apóstrofo para que
+ * quede como texto común.
+ */
+function limpiar(valor, largoMaximo) {
+  var texto = String(valor === null || valor === undefined ? '' : valor)
+    .replace(/[\u0000-\u001f\u007f]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .substring(0, largoMaximo);
+  if (/^[=+\-@]/.test(texto)) {
+    texto = "'" + texto;
+  }
+  return texto;
+}
+
+/** Nombre y apellido: solo letras (con acentos y ñ), espacios, guion y apóstrofo. */
+function esNombre(valor) {
+  var texto = String(valor).trim();
+  return texto.length >= 4 && texto.length <= 60 &&
+    /^[A-Za-zÀ-ÿÑñ][A-Za-zÀ-ÿÑñ'\- ]*[A-Za-zÀ-ÿÑñ]$/.test(texto) &&
+    /\s/.test(texto);
+}
+
+/** Fecha con formato día/mes/año, por ejemplo 20/09/2026. */
+function esFecha(valor) {
+  return /^\d{2}\/\d{2}\/\d{4}$/.test(String(valor));
+}
+
+/**
+ * Control anti-abuso. Devuelve false si se superó el máximo de avisos por
+ * minuto, o si llegó exactamente el mismo aviso hace menos de un minuto
+ * (un doble clic, o alguien repitiendo el envío una y otra vez).
+ */
+function pasaControlDeEnvios(contenido) {
+  var cache = CacheService.getScriptCache();
+
+  var huella = Utilities.base64Encode(
+    Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, contenido));
+  if (cache.get('dup_' + huella)) {
+    return false;
+  }
+
+  var clave = 'min_' + Math.floor(new Date().getTime() / 60000);
+  var cantidad = Number(cache.get(clave) || 0);
+  if (cantidad >= MAX_POR_MINUTO) {
+    return false;
+  }
+
+  cache.put(clave, String(cantidad + 1), 120);
+  cache.put('dup_' + huella, '1', 60);
+  return true;
 }
 
 /**
