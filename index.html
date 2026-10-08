@@ -1387,6 +1387,7 @@ var TOKEN_PLANILLA = 'fsp2026secreto';
      =================================================================== */
   var CFG={
     wa:'5493816808905',                    // WhatsApp de la oficina
+    waSin:'5493815342785',                 // WhatsApp solo para siniestros
     ig:'https://instagram.com/fsp__seguros',// el perfil: todos los botones de Instagram llevan acá
     mail:'',                               // ← cuando haya mail real de la oficina, va acá
     mapa:'https://maps.google.com/?q=Pringles+1350,+Yerba+Buena,+Tucum%C3%A1n'
@@ -1748,7 +1749,7 @@ var TOKEN_PLANILLA = 'fsp2026secreto';
       t.push('¿Hubo heridos?: '+her);
       t.push('');
       t.push('Quedo atento/a, gracias.');
-      $('sinGo').setAttribute('href',wa(t.join('\n')));
+      $('sinGo').setAttribute('href','https://wa.me/'+CFG.waSin+'?text='+encodeURIComponent(t.join('\n')));
     }
     f.addEventListener('input',armar);
     f.addEventListener('change',armar);
